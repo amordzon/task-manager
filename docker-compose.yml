@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: "taskmanager"
+      MYSQL_USER: "keycloak"
+      MYSQL_PASSWORD: "keycloak"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - backend
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0.2
+    container_name: keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=mysql
+      - KC_DB_URL_HOST=mysqldb
+      - KC_DB_URL_DATABASE=taskmanager
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=keycloak
+    ports:
+      - "8080:8080"
+    command: start-dev
+    depends_on:
+      - mysqldb
+    networks:
+      - backend
+      - frontend
+
+volumes:
+  my-db:
+
+networks:
+  backend:
+  frontend:
