@@ -21,9 +21,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(registry -> registry
-                        .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/secured/**").hasRole("admin")
-                        .anyRequest().authenticated()
+                        //.requestMatchers("/users/**").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2Configurer -> oauth2Configurer.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwt -> {
                     Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");

@@ -4,10 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="USER_ENTITY")
 public class User {
     @Id
