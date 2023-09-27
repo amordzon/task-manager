@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.dto.BaseDTO;
 import com.example.server.dto.UserDTO;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.User;
@@ -18,17 +19,15 @@ public class UserService {
     private UserRepository userRepository;
     private ModelMapper modelMapper;
 
-    public List<UserDTO> getUsers(){
+    public BaseDTO getUsers(){
         List<User> users = userRepository.findAll();
-        for(User user : users) {
-            System.out.println(user.getId());
-        }
-        return users.stream().map((user)-> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        List<UserDTO> usersDTO=users.stream().map((user)-> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        return new BaseDTO("Users data", usersDTO);
     }
 
-    public UserDTO getUser(String id){
+    public BaseDTO getUser(String id){
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        System.out.println(111);
-        return modelMapper.map(user, UserDTO.class);
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return new BaseDTO("User data", userDTO);
     }
 }
