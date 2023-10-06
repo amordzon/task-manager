@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
