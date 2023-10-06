@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Collection;
 import java.util.Map;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -20,6 +22,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(registry -> registry
                         //.requestMatchers("/users/**").authenticated()
                         .anyRequest().permitAll()
@@ -36,4 +39,5 @@ public class WebSecurityConfig {
 
         return httpSecurity.build();
     }
+
 }
