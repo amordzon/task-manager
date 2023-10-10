@@ -41,6 +41,9 @@ public class Task {
     private List<User> users;
 
     @OneToOne
+    private User author;
+
+    @OneToOne
     private Group group;
 
     //comments

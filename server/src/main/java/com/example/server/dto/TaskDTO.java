@@ -21,6 +21,8 @@ public class TaskDTO {
 
     private List<User> users;
 
+    private User author;
+
     private Group group;
 
     private Instant createdAt;

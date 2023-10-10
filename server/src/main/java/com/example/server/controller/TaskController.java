@@ -1,12 +1,10 @@
 package com.example.server.controller;
 
 import com.example.server.dto.BaseDTO;
+import com.example.server.model.Task;
 import com.example.server.service.TaskService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
@@ -22,5 +20,10 @@ public class TaskController {
     @GetMapping("/{taskID}")
     public BaseDTO getTask(@PathVariable String taskID){
         return taskService.getTask(taskID);
+    }
+
+    @PostMapping("/{groupID}")
+    public BaseDTO createTask(@RequestBody Task task, @PathVariable String groupID){
+        return taskService.createTask(task, groupID)
     }
 }
