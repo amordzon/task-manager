@@ -40,6 +40,9 @@ public class Task {
     @OneToMany
     private List<User> users;
 
+    @OneToOne
+    private Group group;
+
     //comments
 
     //enum status
