@@ -42,6 +42,27 @@ public class TaskService {
     public BaseDTO createTask(Task task, String groupID) {
         Group group = groupRepository.findById(groupID).orElseThrow(()-> new ResourceNotFoundException("Group with this ID does not exist"));
         task.setGroup(group);
+        addUsersToTask(task);
+        //TO DO: zapisz autora taska
+        taskRepository.save(task);
+        TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
+        return new BaseDTO("Task created", taskDTO);
+    }
+
+
+    public BaseDTO updateTask(Task task, String taskID) {
+        Task taskToUpdate = taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
+        taskToUpdate.setTitle(task.getTitle());
+        taskToUpdate.setDescription(task.getDescription());
+        addUsersToTask(taskToUpdate);
+        taskToUpdate.setStatus(task.getStatus());
+        taskRepository.save(taskToUpdate);
+        TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
+        return new BaseDTO("Task updated", taskDTO);
+
+    }
+
+    private void addUsersToTask(Task task) {
         if(task.getUsers() != null && !task.getUsers().isEmpty()){
             List<User> users = new ArrayList<>();
             for (User user : task.getUsers()){
@@ -50,10 +71,6 @@ public class TaskService {
             }
             task.setUsers(users);
         }
-        //TO DO: zapisz autora taska
-        taskRepository.save(task);
-        TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
-        return new BaseDTO("Task created", taskDTO);
     }
 
     public ResponseEntity<Void> deleteTask(String taskID) {
@@ -61,4 +78,5 @@ public class TaskService {
         taskRepository.delete(task);
         return ResponseEntity.noContent().build();
     }
+
 }

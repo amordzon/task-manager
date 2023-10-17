@@ -28,6 +28,11 @@ public class TaskController {
         return taskService.createTask(task, groupID);
     }
 
+    @PutMapping("/{taskID}")
+    public BaseDTO updateTask(@RequestBody Task task, @PathVariable String taskID){
+        return taskService.updateTask(task, taskID);
+    }
+
     @DeleteMapping("/{taskID}")
     public ResponseEntity<Void> deleteTask(@PathVariable String taskID){
         return taskService.deleteTask(taskID);
