@@ -12,6 +12,7 @@ import com.example.server.repository.TaskRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class TaskService {
     public BaseDTO createTask(Task task, String groupID) {
         Group group = groupRepository.findById(groupID).orElseThrow(()-> new ResourceNotFoundException("Group with this ID does not exist"));
         task.setGroup(group);
-        if(!task.getUsers().isEmpty()){
+        if(task.getUsers() != null && !task.getUsers().isEmpty()){
             List<User> users = new ArrayList<>();
             for (User user : task.getUsers()){
                 User u = userRepository.findById(user.getId()).orElseThrow(()-> new ResourceNotFoundException("User with this ID does not exist"));
@@ -53,5 +54,11 @@ public class TaskService {
         taskRepository.save(task);
         TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
         return new BaseDTO("Task created", taskDTO);
+    }
+
+    public ResponseEntity<Void> deleteTask(String taskID) {
+        Task task = taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
+        taskRepository.delete(task);
+        return ResponseEntity.noContent().build();
     }
 }

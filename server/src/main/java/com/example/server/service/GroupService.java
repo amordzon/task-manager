@@ -40,7 +40,7 @@ public class GroupService {
     public BaseDTO createGroup(Group group, String adminID) {
         User admin = userRepository.findById(adminID).orElseThrow(()-> new ResourceNotFoundException("User with that ID doesn't exist"));
         group.setAdmin(admin);
-        if(!group.getUsers().isEmpty()){
+        if(group.getUsers() != null && !group.getUsers().isEmpty()){
             List<User> users = new ArrayList<>();
             for(User user : group.getUsers()){
                 User u = userRepository.findById(user.getId()).orElseThrow(()-> new ResourceNotFoundException("User with that ID doesn't exist"));
@@ -74,12 +74,9 @@ public class GroupService {
     }
 
     public ResponseEntity<Void> deleteGroup(String id) {
-        if(groupRepository.existsById(id)){
-            groupRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            throw new ResourceNotFoundException("Group with this ID does not exist");
-        }
+        Group group = groupRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Group with this ID does not exist"));
+        groupRepository.delete(group);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.server.dto.BaseDTO;
 import com.example.server.model.Task;
 import com.example.server.service.TaskService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +25,11 @@ public class TaskController {
 
     @PostMapping("/{groupID}")
     public BaseDTO createTask(@RequestBody Task task, @PathVariable String groupID){
-        return taskService.createTask(task, groupID)
+        return taskService.createTask(task, groupID);
+    }
+
+    @DeleteMapping("/{taskID}")
+    public ResponseEntity<Void> deleteTask(@PathVariable String taskID){
+        return taskService.deleteTask(taskID);
     }
 }
