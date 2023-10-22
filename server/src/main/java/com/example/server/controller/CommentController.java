@@ -27,6 +27,11 @@ public class CommentController {
         return commentService.createComment(taskID, comment);
     }
 
+    @PutMapping("/{commentID}")
+    public BaseDTO updateComment(@PathVariable String taskID, @PathVariable String commentID, @RequestBody Comment comment){
+        return commentService.updateComment(taskID, commentID, comment);
+    }
+
     @DeleteMapping("/{commentID}")
     public ResponseEntity<Void> deleteComment(@PathVariable String taskID, @PathVariable String commentID){
         return commentService.deleteComment(taskID, commentID);

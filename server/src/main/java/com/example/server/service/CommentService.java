@@ -62,4 +62,15 @@ public class CommentService {
             throw new ResourceNotFoundException("Comment within this task does not exist");
         }
     }
+
+    public BaseDTO updateComment(String taskID, String commentID, Comment comment) {
+        Comment commentToUpdate = commentRepository.findById(commentID).orElseThrow(()->new ResourceNotFoundException("This comment does not exist"));
+        if (commentToUpdate.getTask().getId().equals(taskID)) {
+            commentToUpdate.setBody(comment.getBody());
+            CommentDTO commentDTO = modelMapper.map(commentToUpdate, CommentDTO.class);
+            return new BaseDTO("Comment updated", commentDTO);
+        } else {
+            throw new ResourceNotFoundException("Comment within this task does not exist");
+        }
+    }
 }
