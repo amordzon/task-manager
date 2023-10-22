@@ -4,6 +4,7 @@ import com.example.server.dto.BaseDTO;
 import com.example.server.model.Comment;
 import com.example.server.service.CommentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,5 +27,9 @@ public class CommentController {
         return commentService.createComment(taskID, comment);
     }
 
+    @DeleteMapping("/{commentID}")
+    public ResponseEntity<Void> deleteComment(@PathVariable String taskID, @PathVariable String commentID){
+        return commentService.deleteComment(taskID, commentID);
+    }
 
 }

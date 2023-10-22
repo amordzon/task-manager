@@ -12,6 +12,7 @@ import com.example.server.repository.GroupRepository;
 import com.example.server.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,5 +51,15 @@ public class CommentService {
         commentRepository.save(comment);
         CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
         return new BaseDTO("Comment created", commentDTO);
+    }
+
+    public ResponseEntity<Void> deleteComment(String taskID, String commentID) {
+        Comment comment = commentRepository.findById(commentID).orElseThrow(()->new ResourceNotFoundException("This comment does not exist"));
+        if (comment.getTask().getId().equals(taskID)) {
+            commentRepository.delete(comment);
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new ResourceNotFoundException("Comment within this task does not exist");
+        }
     }
 }
