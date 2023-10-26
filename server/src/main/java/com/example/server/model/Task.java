@@ -46,12 +46,12 @@ public class Task {
     @OneToOne
     private Group group;
 
-    //comments
-
-    //enum status
     @Enumerated(EnumType.STRING)
     @Column(name="status")
     private Status status;
+
+    @OneToMany
+    private List<Comment> comments;
 
     @Column(name="created_at")
     @CreationTimestamp(source = SourceType.DB)

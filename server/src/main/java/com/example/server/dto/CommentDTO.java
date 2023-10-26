@@ -1,8 +1,6 @@
 package com.example.server.dto;
 
 
-import com.example.server.model.Group;
-import com.example.server.model.Task;
 import com.example.server.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +13,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class CommentDTO {
     private String id;
-
-    private Group group;
-
-    private Task task;
 
     private User author;
 
