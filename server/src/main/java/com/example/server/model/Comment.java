@@ -1,7 +1,6 @@
 package com.example.server.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,45 +12,31 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="TASK_ENTITY")
-public class Task {
+@Setter
+@Getter
+@Table(name="COMMENT_ENTITY")
+public class Comment {
     @Id
     @Column(name="ID")
     @UuidGenerator
     private String id;
 
+    @ManyToOne
+    private Group group;
 
-    @Size(max=30,message="Title must be max 30 characters")
-    @NotNull
-    @Column(name="title")
-    private String title;
-
-    @Size(max=250, message="Description must be max 250 characters")
-    @Column(name="description")
-    private String description;
-
-    @OneToMany
-    private List<User> users;
+    @ManyToOne
+    private Task task;
 
     @OneToOne
     private User author;
 
-    @OneToOne
-    private Group group;
+    @Size(min=1, max=250,message="Body must be 1-250 characters")
+    private String body;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="status")
-    private Status status;
-
-    @OneToMany
-    private List<Comment> comments;
 
     @Column(name="created_at")
     @CreationTimestamp(source = SourceType.DB)
@@ -60,4 +45,5 @@ public class Task {
     @Column(name="updated_at")
     @UpdateTimestamp(source = SourceType.DB)
     private Instant updatedAt;
+
 }

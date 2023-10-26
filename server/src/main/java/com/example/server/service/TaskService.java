@@ -57,7 +57,7 @@ public class TaskService {
         addUsersToTask(taskToUpdate);
         taskToUpdate.setStatus(task.getStatus());
         taskRepository.save(taskToUpdate);
-        TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
+        TaskDTO taskDTO = modelMapper.map(taskToUpdate, TaskDTO.class);
         return new BaseDTO("Task updated", taskDTO);
 
     }

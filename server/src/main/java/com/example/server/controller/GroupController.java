@@ -3,7 +3,6 @@ package com.example.server.controller;
 import com.example.server.dto.BaseDTO;
 import com.example.server.model.Group;
 import com.example.server.service.GroupService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
