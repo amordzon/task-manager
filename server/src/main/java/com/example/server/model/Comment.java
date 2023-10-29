@@ -38,12 +38,18 @@ public class Comment {
     private String body;
 
 
-    @Column(name="created_at")
+    @Column(name="created_at", updatable = false)
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
 
     @Column(name="updated_at")
     @UpdateTimestamp(source = SourceType.DB)
     private Instant updatedAt;
+
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = Instant.now();
+    }
 
 }
