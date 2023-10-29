@@ -53,11 +53,17 @@ public class Task {
     @OneToMany
     private List<Comment> comments;
 
-    @Column(name="created_at")
+    @Column(name="created_at", updatable = false)
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
 
     @Column(name="updated_at")
     @UpdateTimestamp(source = SourceType.DB)
     private Instant updatedAt;
+
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = Instant.now();
+    }
 }

@@ -67,6 +67,7 @@ public class CommentService {
         Comment commentToUpdate = commentRepository.findById(commentID).orElseThrow(()->new ResourceNotFoundException("This comment does not exist"));
         if (commentToUpdate.getTask().getId().equals(taskID)) {
             commentToUpdate.setBody(comment.getBody());
+            commentRepository.save(commentToUpdate);
             CommentDTO commentDTO = modelMapper.map(commentToUpdate, CommentDTO.class);
             return new BaseDTO("Comment updated", commentDTO);
         } else {
