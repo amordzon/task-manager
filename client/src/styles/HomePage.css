@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+.__navbar {
+  border-bottom: 2px solid rgb(240, 240, 240);
+}
+
+.__navbar-container {
+  font-family: "Rubik", sans-serif;
+}
+
+.__logo {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.__jumbotron {
+  background-color: #3a5a40;
+  color: #dad7cd;
+  height: 500px;
+}
