@@ -18,7 +18,7 @@
 .__jumbotron {
   background-color: #3a5a40;
   color: #dad7cd;
-  height: 600px;
+  height: 550px;
 }
 
 .__header {
@@ -58,4 +58,13 @@
   color: #344e41;
   background-color: transparent;
   text-decoration: underline;
+}
+
+.__features p {
+  font-size: 20px;
+}
+
+.__features-btn {
+  background-color: #588157;
+  font-size: 18px;
 }
