@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 const NavbarPage = () => {
   return (
     <div>
-      <Navbar className="__navbar">
+      <Navbar className="__navbar fixed-top">
         <Container className="__navbar-container">
           <Navbar.Brand className="__logo">TaskManager</Navbar.Brand>
           <Navbar.Toggle />
