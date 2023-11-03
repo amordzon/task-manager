@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+.__navbar {
+  border-bottom: 2px solid rgb(240, 240, 240);
+  background-color: white;
+}
+
+.__navbar-container {
+  font-family: "Rubik", sans-serif;
+}
+
+.__logo {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.__jumbotron {
+  background-color: #3a5a40;
+  color: #dad7cd;
+  height: 550px;
+}
+
+.__header {
+  background-color: #a3b18a;
+  min-height: 280px;
+}
+
+.__header-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.__header p {
+  font-size: 18px;
+}
+
+.__header a:link {
+  color: #344e41;
+  background-color: transparent;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.__header a:visited {
+  color: #344e41;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.__header a:hover {
+  color: #344e41;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.__header a:active {
+  color: #344e41;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.__features p {
+  font-size: 20px;
+}
+
+.__features-btn {
+  background-color: #588157;
+  font-size: 18px;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #dad7cd;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: #dad7cd;
+}
