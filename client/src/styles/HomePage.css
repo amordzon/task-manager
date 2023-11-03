@@ -23,7 +23,7 @@
 
 .__header {
   background-color: #a3b18a;
-  height: 280px;
+  min-height: 280px;
 }
 
 .__header-icon {
