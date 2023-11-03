@@ -5,6 +5,7 @@ import Jumbotron from "./Jumbotron";
 import LaptopSection from "./LaptopSection";
 import HeaderSection from "./HeaderSection";
 import Features from "./Features";
+import FAQ from "./FAQ";
 
 const HomePage = () => {
   return (
@@ -14,6 +15,7 @@ const HomePage = () => {
       <LaptopSection />
       <HeaderSection />
       <Features />
+      <FAQ />
     </div>
   );
 };
