@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Accordion } from "react-bootstrap";
+import axios from "axios";
 
 const FAQ = () => {
+  const [faqs, setFaqs] = useState([]);
+
+  const getFAQs = async () => {
+    await axios
+      .get("http://localhost:8081/faq")
+      .then((response) => {
+        const FAQs = response.data;
+        setFaqs(FAQs);
+        console.log(faqs);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getFAQs();
+  }, []);
+
   return (
     <Container className="pb-5">
       <h1 className="text-center">Frequently Asked Questions</h1>
