@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Accordion } from "react-bootstrap";
-import axios from "axios";
 import { FAQ } from "../../types/FAQ";
+import api from "../../api";
 
 const FAQSection = () => {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
 
   const getFAQs = async () => {
-    await axios
-      .get("http://localhost:8081/faq?limit=4")
+    await api
+      .get("/faq?limit=4")
       .then((response) => {
         const FAQs = response.data.data;
         console.log(FAQs);
