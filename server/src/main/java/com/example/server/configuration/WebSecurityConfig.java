@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Collection;
 import java.util.Map;
@@ -37,6 +40,15 @@ public class WebSecurityConfig {
         ;
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfig = new CorsConfiguration().applyPermitDefaultValues();
+        corsConfig.addAllowedOrigin("*");
+        source.registerCorsConfiguration("/**", corsConfig);
+        return new CorsFilter(source);
     }
 
 }
