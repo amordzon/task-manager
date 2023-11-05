@@ -7,7 +7,7 @@ const Jumbotron = () => {
       fluid
       className="d-flex align-items-center justify-content-center __jumbotron"
     >
-      <Row>
+      <Row className="col-lg-11 col-xl-10">
         <Col className="text-center">
           <h1 className="display-4">Hello, world!</h1>
           <p className="lead">
