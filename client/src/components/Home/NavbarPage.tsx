@@ -1,8 +1,10 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
+import { useKeycloak } from "@react-keycloak/web";
 
 const NavbarPage = () => {
+  const { keycloak } = useKeycloak();
   return (
     <div>
       <Navbar className="__navbar fixed-top">
@@ -10,7 +12,26 @@ const NavbarPage = () => {
           <Navbar.Brand className="__logo">TaskManager</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>Login</Navbar.Text>
+            <Navbar.Text>
+              {!keycloak.authenticated && (
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => keycloak.login()}
+                >
+                  Login
+                </button>
+              )}
+              {!!keycloak.authenticated && (
+                <button
+                  type="button"
+                  className="btn btn-outline-dark"
+                  onClick={() => keycloak.logout()}
+                >
+                  Logout
+                </button>
+              )}
+            </Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
