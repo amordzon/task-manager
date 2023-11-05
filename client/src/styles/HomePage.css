@@ -67,6 +67,13 @@
 .__features-btn {
   background-color: #588157;
   font-size: 18px;
+  border: none;
+}
+
+.__features-btn:hover,
+.__features-btn:active,
+.__features-btn:visited {
+  background-color: #3a5a40 !important;
 }
 
 .accordion-button:not(.collapsed) {
