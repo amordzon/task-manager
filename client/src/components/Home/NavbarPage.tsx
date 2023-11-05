@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { useKeycloak } from "@react-keycloak/web";
+import { Link } from "react-router-dom";
 
 const NavbarPage = () => {
   const { keycloak } = useKeycloak();
@@ -23,13 +24,17 @@ const NavbarPage = () => {
                 </button>
               )}
               {!!keycloak.authenticated && (
-                <button
-                  type="button"
-                  className="btn btn-outline-dark"
-                  onClick={() => keycloak.logout()}
-                >
-                  Logout
-                </button>
+                <div className="d-flex align-items-center gap-3">
+                  <Link to="/dashboard">Dasboard</Link>
+
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark"
+                    onClick={() => keycloak.logout()}
+                  >
+                    Logout
+                  </button>
+                </div>
               )}
             </Navbar.Text>
           </Navbar.Collapse>
