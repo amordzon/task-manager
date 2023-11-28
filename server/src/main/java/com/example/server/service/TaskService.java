@@ -1,8 +1,6 @@
 package com.example.server.service;
 
 
-import com.example.server.dto.BaseDTO;
-import com.example.server.dto.TaskDTO;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Group;
 import com.example.server.model.Task;
@@ -11,13 +9,10 @@ import com.example.server.repository.GroupRepository;
 import com.example.server.repository.TaskRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
