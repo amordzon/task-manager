@@ -2,7 +2,6 @@ package com.example.server.service;
 
 import com.example.server.dto.BaseDTO;
 import com.example.server.dto.CommentDTO;
-import com.example.server.dto.GroupDTO;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Comment;
 import com.example.server.model.Group;

@@ -12,7 +12,6 @@ import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
