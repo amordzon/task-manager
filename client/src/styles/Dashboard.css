@@ -1,0 +1,16 @@
+.__sidebar {
+  background-color: #588157;
+  color: white;
+}
+
+.nav-link.active {
+  background-color: #a3b18a !important;
+}
+
+.nav-link {
+  color: #dad7cd;
+}
+
+.nav-link:hover {
+  color: white;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import Dashboard from "./components/Dashboard/Dashboard";
 import Loading from "./components/Loading";
 
 const HomePage = React.lazy(() => import("./components/Home/HomePage"));
@@ -9,6 +10,7 @@ const AppRoutes = () => {
     <React.Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </React.Suspense>
   );
