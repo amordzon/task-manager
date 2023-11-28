@@ -7,7 +7,6 @@ import com.example.server.model.User;
 import com.example.server.repository.GroupRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -33,11 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public BaseDTO getUser(@PathVariable String id) {
+    public BaseDTO getUser(@PathVariable String id) throws ResourceNotFoundException{
         User user = userService.getUser(id);
-        if(user==null){
-            throw new ResourceNotFoundException("User not found");
-        }
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         return new BaseDTO("User data", userDTO);
     }

@@ -4,6 +4,8 @@ import com.example.server.model.User;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.server.exception.ResourceNotFoundException;
+
 
 import java.util.List;
 
@@ -14,12 +16,11 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> getUsers(){
-        List<User> users = userRepository.findAll();
-        return users;
+        return userRepository.findAll();
     }
 
     public User getUser(String id){
-        User user = userRepository.findById(id).orElse(null);
-        return user;
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
     }
 }
