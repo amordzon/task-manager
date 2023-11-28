@@ -29,31 +29,22 @@ public class FAQController {
     }
 
     @PostMapping
-    public BaseDTO createFAQ(@RequestBody FAQ faq){
+    public BaseDTO createFAQ(@RequestBody FAQ faq) throws ResourceAlreadyExists{
         FAQ createdFaq = faqService.createFAQ(faq);
-        if(createdFaq==null){
-            throw new ResourceAlreadyExists("This question already exists");
-        }
         FAQDTO faqDTO = modelMapper.map(createdFaq, FAQDTO.class);
         return new BaseDTO("FAQ created", faqDTO);
     }
 
     @PutMapping("/{faqID}")
-    public BaseDTO updateFAQ(@RequestBody FAQ faq, @PathVariable String faqID){
+    public BaseDTO updateFAQ(@RequestBody FAQ faq, @PathVariable String faqID) throws  ResourceNotFoundException{
         FAQ updatedFaq = faqService.updateFAQ(faq, faqID);
-        if(updatedFaq==null){
-            throw new ResourceNotFoundException("FAQ with this ID does not exist");
-        }
         FAQDTO faqDTO = modelMapper.map(updatedFaq, FAQDTO.class);
         return new BaseDTO("FAQ updated", faqDTO);
     }
 
     @DeleteMapping("/{faqID}")
-    public ResponseEntity<Void> deleteFAQ(@PathVariable String faqID){
-        Boolean faqIsDeleted = faqService.deleteFAQ(faqID);
-        if(faqIsDeleted==false){
-            new ResourceNotFoundException("FAQ with this ID does not exist");
-        }
+    public ResponseEntity<Void> deleteFAQ(@PathVariable String faqID) throws ResourceNotFoundException{
+        faqService.deleteFAQ(faqID);
         return ResponseEntity.noContent().build();
     }
 }

@@ -5,6 +5,8 @@ import com.example.server.repository.FAQRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import com.example.server.exception.ResourceAlreadyExists;
+import com.example.server.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,36 +22,30 @@ public class FAQService {
     }
 
     public List<FAQ> getFAQs() {
-        List<FAQ> faqs = faqRepository.findAll();
-        return faqs;
+        return faqRepository.findAll();
     }
 
     public FAQ createFAQ(FAQ faq) {
         if (faqRepository.findByQuestion(faq.getQuestion()) != null) {
-            return null;
+            throw new ResourceAlreadyExists("FAQ with this question already exists");
         }
         faqRepository.save(faq);
         return faq;
     }
 
     public FAQ updateFAQ(FAQ faq, String faqID) {
-        FAQ faqToUpdate = faqRepository.findById(faqID).orElse(null);
-        if(faqToUpdate==null){
-            return null;
-        }
+        FAQ faqToUpdate = faqRepository.findById(faqID)
+                .orElseThrow(() -> new ResourceNotFoundException("FAQ not found with ID: " + faqID));
         faqToUpdate.setQuestion(faq.getQuestion());
         faqToUpdate.setAnswer(faq.getAnswer());
-        faqRepository.save(faqToUpdate);
-        return faqToUpdate;
+        return faqRepository.save(faqToUpdate);
     }
 
-    public Boolean deleteFAQ(String faqID) {
-        FAQ faqToDelete = faqRepository.findById(faqID).orElse(null);
-        if(faqToDelete==null){
-            return false;
-        }
+    public void deleteFAQ(String faqID) {
+        FAQ faqToDelete = faqRepository.findById(faqID)
+                .orElseThrow(() -> new ResourceNotFoundException("FAQ not found with ID: " + faqID));
+
         faqRepository.delete(faqToDelete);
-        return true;
     }
 
 }
