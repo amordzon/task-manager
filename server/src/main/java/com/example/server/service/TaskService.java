@@ -1,8 +1,6 @@
 package com.example.server.service;
 
 
-import com.example.server.dto.BaseDTO;
-import com.example.server.dto.TaskDTO;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Group;
 import com.example.server.model.Task;
@@ -11,13 +9,10 @@ import com.example.server.repository.GroupRepository;
 import com.example.server.repository.TaskRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,41 +20,31 @@ public class TaskService {
     private TaskRepository taskRepository;
     private GroupRepository groupRepository;
     private UserRepository userRepository;
-    private ModelMapper modelMapper;
 
-    public BaseDTO getTasks() {
-        List<Task> tasks = taskRepository.findAll();
-        List<TaskDTO> tasksDTO = tasks.stream().map((task)-> modelMapper.map(task, TaskDTO.class)).collect(Collectors.toList());
-        return new BaseDTO("Tasks info", tasksDTO);
+    public List<Task> getTasks() {
+        return taskRepository.findAll();
     }
 
-    public BaseDTO getTask(String taskID) {
-        Task task = taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
-        TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
-        return new BaseDTO("Task info", taskDTO);
+    public Task getTask(String taskID) {
+        return taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
     }
 
-    public BaseDTO createTask(Task task, String groupID) {
+    public Task createTask(Task task, String groupID) {
         Group group = groupRepository.findById(groupID).orElseThrow(()-> new ResourceNotFoundException("Group with this ID does not exist"));
         task.setGroup(group);
         addUsersToTask(task);
         //TO DO: zapisz autora taska
-        taskRepository.save(task);
-        TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
-        return new BaseDTO("Task created", taskDTO);
+        return taskRepository.save(task);
     }
 
 
-    public BaseDTO updateTask(Task task, String taskID) {
+    public Task updateTask(Task task, String taskID) {
         Task taskToUpdate = taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
         taskToUpdate.setTitle(task.getTitle());
         taskToUpdate.setDescription(task.getDescription());
         addUsersToTask(taskToUpdate);
         taskToUpdate.setStatus(task.getStatus());
-        taskRepository.save(taskToUpdate);
-        TaskDTO taskDTO = modelMapper.map(taskToUpdate, TaskDTO.class);
-        return new BaseDTO("Task updated", taskDTO);
-
+        return taskRepository.save(taskToUpdate);
     }
 
     private void addUsersToTask(Task task) {
@@ -73,10 +58,9 @@ public class TaskService {
         }
     }
 
-    public ResponseEntity<Void> deleteTask(String taskID) {
+    public void deleteTask(String taskID) {
         Task task = taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
         taskRepository.delete(task);
-        return ResponseEntity.noContent().build();
     }
 
 }

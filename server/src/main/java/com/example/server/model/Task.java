@@ -43,7 +43,7 @@ public class Task {
     @OneToOne
     private User author;
 
-    @OneToOne
+    @ManyToOne
     private Group group;
 
     @Enumerated(EnumType.STRING)
