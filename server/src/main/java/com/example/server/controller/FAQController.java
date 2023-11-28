@@ -34,7 +34,7 @@ public class FAQController {
         if(createdFaq==null){
             throw new ResourceAlreadyExists("This question already exists");
         }
-        FAQDTO faqDTO = modelMapper.map(faq, FAQDTO.class);
+        FAQDTO faqDTO = modelMapper.map(createdFaq, FAQDTO.class);
         return new BaseDTO("FAQ created", faqDTO);
     }
 
