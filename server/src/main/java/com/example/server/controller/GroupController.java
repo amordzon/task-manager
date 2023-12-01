@@ -6,6 +6,7 @@ import com.example.server.exception.ResourceAlreadyExists;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Group;
 import com.example.server.service.GroupService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -39,14 +40,14 @@ public class GroupController {
 
 
     @PostMapping("/{adminID}")
-    public BaseDTO createGroup(@RequestBody Group group, @PathVariable String adminID) throws ResourceNotFoundException {
+    public BaseDTO createGroup(@Valid @RequestBody Group group, @PathVariable String adminID) throws ResourceNotFoundException {
         Group createdGroup = groupService.createGroup(group, adminID);
         GroupDTO groupDTO = modelMapper.map(createdGroup, GroupDTO.class);
         return new BaseDTO("Group created", groupDTO);
     }
 
     @PutMapping("/{groupID}")
-    public BaseDTO updateGroup(@RequestBody Group updatedGroup, @PathVariable String groupID) throws ResourceNotFoundException, ResourceAlreadyExists {
+    public BaseDTO updateGroup(@Valid @RequestBody Group updatedGroup, @PathVariable String groupID) throws ResourceNotFoundException, ResourceAlreadyExists {
         Group groupUpdated = groupService.updateGroup(updatedGroup, groupID);
         GroupDTO groupDTO = modelMapper.map(groupUpdated, GroupDTO.class);
         return new BaseDTO("Group updated", groupDTO);

@@ -1,6 +1,7 @@
 package com.example.server.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class Comment {
     private User author;
 
     @Size(min=1, max=250,message="Body must be 1-250 characters")
+    @NotBlank(message = "Comment cannot be null")
     private String body;
 
 

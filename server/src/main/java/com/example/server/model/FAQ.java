@@ -1,6 +1,8 @@
 package com.example.server.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,10 +28,12 @@ public class FAQ {
     private String id;
 
     @Column(name="question", unique = true)
+    @NotBlank(message = "Question cannot be null")
     @Size(max=100,min=3,message="Question must be between 3-100 characters")
     private String question;
 
     @Column(name="answer")
+    @NotBlank(message = "Answer cannot be null")
     @Size(max=500, min=3, message = "Answer must be between 3-500 characters")
     private String answer;
 

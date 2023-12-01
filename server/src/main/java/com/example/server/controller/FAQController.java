@@ -6,6 +6,7 @@ import com.example.server.exception.ResourceAlreadyExists;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.FAQ;
 import com.example.server.service.FAQService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +30,14 @@ public class FAQController {
     }
 
     @PostMapping
-    public BaseDTO createFAQ(@RequestBody FAQ faq) throws ResourceAlreadyExists{
+    public BaseDTO createFAQ(@Valid @RequestBody FAQ faq) throws ResourceAlreadyExists{
         FAQ createdFaq = faqService.createFAQ(faq);
         FAQDTO faqDTO = modelMapper.map(createdFaq, FAQDTO.class);
         return new BaseDTO("FAQ created", faqDTO);
     }
 
     @PutMapping("/{faqID}")
-    public BaseDTO updateFAQ(@RequestBody FAQ faq, @PathVariable String faqID) throws  ResourceNotFoundException{
+    public BaseDTO updateFAQ(@Valid @RequestBody FAQ faq, @PathVariable String faqID) throws  ResourceNotFoundException{
         FAQ updatedFaq = faqService.updateFAQ(faq, faqID);
         FAQDTO faqDTO = modelMapper.map(updatedFaq, FAQDTO.class);
         return new BaseDTO("FAQ updated", faqDTO);

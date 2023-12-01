@@ -5,6 +5,7 @@ import com.example.server.dto.CommentDTO;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Comment;
 import com.example.server.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,14 @@ public class CommentController {
     }
 
     @PostMapping
-    public BaseDTO createComment(@PathVariable String taskID, @RequestBody Comment comment) throws ResourceNotFoundException{
+    public BaseDTO createComment(@PathVariable String taskID, @Valid @RequestBody Comment comment) throws ResourceNotFoundException{
         Comment createdComment = commentService.createComment(taskID, comment);
         CommentDTO commentDTO = modelMapper.map(createdComment, CommentDTO.class);
         return new BaseDTO("Comment created", commentDTO);
     }
 
     @PutMapping("/{commentID}")
-    public BaseDTO updateComment(@PathVariable String taskID, @PathVariable String commentID, @RequestBody Comment comment) throws ResourceNotFoundException{
+    public BaseDTO updateComment(@PathVariable String taskID, @PathVariable String commentID, @Valid @RequestBody Comment comment) throws ResourceNotFoundException{
         Comment updatedComment = commentService.updateComment(taskID, commentID, comment);
 
         CommentDTO commentDTO = modelMapper.map(updatedComment, CommentDTO.class);

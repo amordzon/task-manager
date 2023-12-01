@@ -1,7 +1,7 @@
 package com.example.server.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class Task {
 
 
     @Size(max=30,message="Title must be max 30 characters")
-    @NotNull
+    @NotBlank(message = "Title cannot be null")
     @Column(name="title")
     private String title;
 
