@@ -5,6 +5,7 @@ import com.example.server.dto.TaskDTO;
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Task;
 import com.example.server.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,14 @@ public class TaskController {
     }
 
     @PostMapping("/{groupID}")
-    public BaseDTO createTask(@RequestBody Task task, @PathVariable String groupID) throws  ResourceNotFoundException{
+    public BaseDTO createTask(@Valid @RequestBody Task task, @PathVariable String groupID) throws  ResourceNotFoundException{
         Task createdTask = taskService.createTask(task, groupID);
         TaskDTO taskDTO = modelMapper.map(createdTask, TaskDTO.class);
         return new BaseDTO("Task created", taskDTO);
     }
 
     @PutMapping("/{taskID}")
-    public BaseDTO updateTask(@RequestBody Task task, @PathVariable String taskID) throws ResourceNotFoundException{
+    public BaseDTO updateTask(@Valid @RequestBody Task task, @PathVariable String taskID) throws ResourceNotFoundException{
         Task updatedTask = taskService.updateTask(task, taskID);
         TaskDTO taskDTO = modelMapper.map(updatedTask, TaskDTO.class);
         return new BaseDTO("Task updated", taskDTO);

@@ -43,6 +43,9 @@ public class Group {
     @ManyToOne
     private User admin;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
+
     @Column(name="created_at", updatable = false)
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
