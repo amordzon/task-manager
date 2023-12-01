@@ -1,16 +1,15 @@
 package com.example.server.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SourceType;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -50,7 +49,7 @@ public class Task {
     @Column(name="status")
     private Status status;
 
-    @OneToMany
+    @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
     @Column(name="created_at", updatable = false)

@@ -33,7 +33,7 @@ public class User {
     @JsonIgnore
     private List<Group> groups;
 
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Group> ownedGroups;
 
