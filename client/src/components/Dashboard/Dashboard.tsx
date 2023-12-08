@@ -2,13 +2,16 @@ import React from "react";
 import Sidebar from "../Sidebar";
 import { Container, Row, Col } from "react-bootstrap";
 import "../../styles/Dashboard.css";
+import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <Container className="min-vh-100" fluid>
       <Row>
         <Sidebar />
-        <Col>aaa</Col>
+        <Col>
+          <Outlet />
+        </Col>
       </Row>
     </Container>
   );
