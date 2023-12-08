@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Col, Nav, NavDropdown } from "react-bootstrap";
+import useLogout from "../hooks/useLogout";
+import { Navigate } from "react-router";
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("Home");
+  const { isLoggedIn, logOut } = useLogout();
+
+  if (!isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Col className="p-3 d-flex flex-column col-md-3 col-lg-3 col-xl-2 min-vh-100 __sidebar">
@@ -55,7 +62,7 @@ const Sidebar = () => {
       <NavDropdown title="User" id="dropdown" className="dropdown mt-auto">
         <NavDropdown.Item href="#">Profile</NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item href="#">Sign out</NavDropdown.Item>
+        <NavDropdown.Item onClick={logOut}>Sign out</NavDropdown.Item>
       </NavDropdown>
     </Col>
   );
