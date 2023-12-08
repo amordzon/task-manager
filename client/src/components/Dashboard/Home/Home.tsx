@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import React from "react";
 import { Button, Card, Container, Row, Col, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { keycloak } = useKeycloak();
@@ -25,7 +26,9 @@ const Home = () => {
                 track progress within each project.
               </Card.Text>
               <div className="text-center">
-                <Button variant="success">Create Project</Button>
+                <Link to="new-project">
+                  <Button variant="success">Create Project</Button>
+                </Link>
               </div>
             </Card.Body>
           </Card>
