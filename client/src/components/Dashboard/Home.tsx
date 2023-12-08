@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <Container className="mt-4">
-      <h2 className="text-center mb-2">Hello {name || "Guest"}!</h2>
+      <h2 className="text-center mb-2">Hello {name}!</h2>
 
       <Row className="my-5">
         <Col className="mt-2">
