@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import api from "../../../api";
 import { useKeycloak } from "@react-keycloak/web";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type ModalProps = {
   showNewProjectForm: boolean;
@@ -92,14 +94,36 @@ const NewProject = ({
       .then((response) => {
         console.log(response.data);
         reset();
+        toast.success("New project created sucessfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        handleCloseProjectForm();
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
   });
 
   return (
     <>
+      <ToastContainer />
       <Modal
         size="lg"
         centered
