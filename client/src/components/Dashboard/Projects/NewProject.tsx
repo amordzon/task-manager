@@ -3,6 +3,8 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import api from "../../../api";
+import { useKeycloak } from "@react-keycloak/web";
 
 type ModalProps = {
   showNewProjectForm: boolean;
@@ -31,16 +33,18 @@ const NewProject = ({
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormProjectData>({
     defaultValues: { name: "", description: "", users: [{ email: "" }] },
     resolver: yupResolver(projectSchema),
   });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "users",
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+
   const watchFieldArray = watch("users");
   const controlledFields = watchFieldArray
     ? fields.map((field, index) => ({
@@ -58,6 +62,41 @@ const NewProject = ({
       })();
     }
   };
+
+  const { keycloak } = useKeycloak();
+
+  const onSubmit = handleSubmit(async (data) => {
+    const userEmails = data.users?.reduce((prev, curr) => {
+      if (curr.email && curr.email !== "") {
+        return [...prev, curr.email];
+      } else {
+        return prev;
+      }
+    }, [] as string[]);
+
+    console.log(userEmails);
+
+    await api
+      .post(
+        "/groups",
+        {
+          name: data.name,
+          description: data.description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${keycloak.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <>
