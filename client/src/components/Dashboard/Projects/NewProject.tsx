@@ -1,24 +1,40 @@
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useFieldArray, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 type ModalProps = {
   showNewProjectForm: boolean;
   handleCloseProjectForm: () => void;
 };
 
-type FormProjectData = {
-  name: string;
-  description: string;
-  users: { email: string }[];
-};
+const projectSchema = yup
+  .object({
+    name: yup.string().required(),
+    description: yup.string(),
+    users: yup.array().of(
+      yup.object().shape({
+        email: yup.string().email("Invalid email"),
+      })
+    ),
+  })
+  .required();
+type FormProjectData = yup.InferType<typeof projectSchema>;
 
 const NewProject = ({
   showNewProjectForm,
   handleCloseProjectForm,
 }: ModalProps) => {
-  const { register, handleSubmit, control, watch } = useForm<FormProjectData>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<FormProjectData>({
     defaultValues: { name: "", description: "", users: [{ email: "" }] },
+    resolver: yupResolver(projectSchema),
   });
   const { fields, append, remove } = useFieldArray({
     control,
@@ -26,12 +42,12 @@ const NewProject = ({
   });
   const onSubmit = handleSubmit((data) => console.log(data));
   const watchFieldArray = watch("users");
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
+  const controlledFields = watchFieldArray
+    ? fields.map((field, index) => ({
+        ...field,
+        ...(watchFieldArray[index] || {}),
+      }))
+    : [];
 
   const addEmail = (element: React.KeyboardEvent<HTMLInputElement>) => {
     if (element.key === "Enter") {
@@ -64,6 +80,7 @@ const NewProject = ({
                 placeholder="Project name"
                 autoFocus
               />
+              <p>{errors.name?.message}</p>
             </Form.Group>
             <Form.Group
               className="mb-3"
@@ -82,29 +99,38 @@ const NewProject = ({
             >
               <Form.Label>Invite Users</Form.Label>
               {controlledFields.map((field, index) => {
+                const userEmailError = errors?.users?.[index]?.email;
                 return (
-                  <div key={index} className="row mb-2">
-                    <div className="col-9">
-                      <Form.Control
-                        {...register(`users.${index}.email` as const)}
-                        type="email"
-                        className="mb-1"
-                        placeholder="Enter email"
-                        onKeyDown={addEmail}
-                      />
+                  <div key={index}>
+                    <div className="row mb-2">
+                      <div className="col-9">
+                        <Form.Control
+                          {...register(`users.${index}.email` as const)}
+                          type="email"
+                          className="mb-1"
+                          placeholder="Enter email"
+                          onKeyDown={addEmail}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            if (fields.length > 1) {
+                              remove(index);
+                            }
+                          }}
+                          className="ms-2"
+                        >
+                          X
+                        </Button>
+                      </div>
                     </div>
-                    <div className="col-3">
-                      <Button
-                        variant="danger"
-                        onClick={() => remove(index)}
-                        className="ms-2"
-                      >
-                        X
-                      </Button>
-                    </div>
+                    {userEmailError && <p>{userEmailError.message}</p>}
                   </div>
                 );
               })}
+
               <Form.Text className="text-muted">
                 Enter email address and press enter.
               </Form.Text>
