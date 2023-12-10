@@ -39,7 +39,6 @@ public class Group {
     @ManyToMany
     private List<User> users;
 
-    @NotNull
     @ManyToOne
     private User admin;
 
