@@ -31,11 +31,14 @@ public class WebSecurityConfig {
                 )
                 .oauth2ResourceServer(oauth2Configurer -> oauth2Configurer.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwt -> {
                     Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
+                    String userId = jwt.getClaim("user_id");
                     Collection<String> roles = realmAccess.get("roles");
                     var grantedAuthorities = roles.stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                             .toList();
-                    return new JwtAuthenticationToken(jwt, grantedAuthorities);
+                    JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(jwt, grantedAuthorities);
+                    jwtAuthenticationToken.setDetails(userId);
+                    return jwtAuthenticationToken;
                 })))
         ;
 

@@ -7,10 +7,15 @@ import com.example.server.model.User;
 import com.example.server.repository.GroupRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -42,17 +47,28 @@ public class GroupService {
     }
 
 
-    public Group createGroup(Group group, String adminID) throws ResourceNotFoundException {
+    public Group createGroup(Group group) throws ResourceNotFoundException {
+//        if (group.getUsers() != null && !group.getUsers().isEmpty()) {
+//            List<User> users = getUsersFromRepository(group.getUsers());
+//            users.add(admin);
+//            group.setUsers(users);
+//        }
+
+        String adminID = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getDetails() != null) {
+            adminID = authentication.getDetails().toString();
+        }
+
         User admin = userRepository.findById(adminID)
-                .orElseThrow(() -> new ResourceNotFoundException("Admin not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("Admin not found"));
 
         group.setAdmin(admin);
 
-        if (group.getUsers() != null && !group.getUsers().isEmpty()) {
-            List<User> users = getUsersFromRepository(group.getUsers());
-            users.add(admin);
-            group.setUsers(users);
-        }
+        //change this later
+        List<User> users = new ArrayList<>();
+        users.add(admin);
+        group.setUsers(users);
 
         return groupRepository.save(group);
     }

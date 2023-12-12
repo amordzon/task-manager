@@ -39,9 +39,9 @@ public class GroupController {
     }
 
 
-    @PostMapping("/{adminID}")
-    public BaseDTO createGroup(@Valid @RequestBody Group group, @PathVariable String adminID) throws ResourceNotFoundException {
-        Group createdGroup = groupService.createGroup(group, adminID);
+    @PostMapping()
+    public BaseDTO createGroup(@Valid @RequestBody Group group) throws ResourceNotFoundException {
+        Group createdGroup = groupService.createGroup(group);
         GroupDTO groupDTO = modelMapper.map(createdGroup, GroupDTO.class);
         return new BaseDTO("Group created", groupDTO);
     }
