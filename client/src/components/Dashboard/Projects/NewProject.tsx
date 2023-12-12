@@ -1,126 +1,30 @@
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useFieldArray, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import api from "../../../api";
-import { useKeycloak } from "@react-keycloak/web";
-import { ToastContainer, toast } from "react-toastify";
+
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useNewProject from "../../../hooks/useNewProject";
 
 type ModalProps = {
   showNewProjectForm: boolean;
   handleCloseProjectForm: () => void;
 };
 
-const projectSchema = yup
-  .object({
-    name: yup.string().required(),
-    description: yup.string(),
-    users: yup.array().of(
-      yup.object().shape({
-        email: yup.string().email("Invalid email"),
-      })
-    ),
-  })
-  .required();
-type FormProjectData = yup.InferType<typeof projectSchema>;
-
 const NewProject = ({
   showNewProjectForm,
   handleCloseProjectForm,
 }: ModalProps) => {
   const {
+    fields,
     register,
-    handleSubmit,
-    control,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<FormProjectData>({
-    defaultValues: { name: "", description: "", users: [{ email: "" }] },
-    resolver: yupResolver(projectSchema),
+    remove,
+    onSubmit,
+    errors,
+    addEmail,
+    controlledFields,
+  } = useNewProject({
+    handleCloseProjectForm,
   });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "users",
-  });
-
-  const watchFieldArray = watch("users");
-  const controlledFields = watchFieldArray
-    ? fields.map((field, index) => ({
-        ...field,
-        ...(watchFieldArray[index] || {}),
-      }))
-    : [];
-
-  const addEmail = (element: React.KeyboardEvent<HTMLInputElement>) => {
-    if (element.key === "Enter") {
-      element.preventDefault();
-      element.stopPropagation();
-      handleSubmit(() => {
-        append({ email: "" });
-      })();
-    }
-  };
-
-  const { keycloak } = useKeycloak();
-
-  const onSubmit = handleSubmit(async (data) => {
-    const userEmails = data.users?.reduce((prev, curr) => {
-      if (curr.email && curr.email !== "") {
-        return [...prev, curr.email];
-      } else {
-        return prev;
-      }
-    }, [] as string[]);
-
-    console.log(userEmails);
-
-    await api
-      .post(
-        "/groups",
-        {
-          name: data.name,
-          description: data.description,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${keycloak.token}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        reset();
-        toast.success("New project created sucessfully!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        handleCloseProjectForm();
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
-  });
-
   return (
     <>
       <ToastContainer />
