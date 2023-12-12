@@ -12,7 +12,7 @@ const Sidebar = () => {
   }
 
   return (
-    <Col className="p-3 d-flex flex-column col-md-3 col-lg-3 col-xl-2 min-vh-100 __sidebar">
+    <Col className="p-3 d-flex flex-column col-md-3 col-lg-3 col-xl-2 vh-100 position-fixed  __sidebar">
       <a
         href="/"
         className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
