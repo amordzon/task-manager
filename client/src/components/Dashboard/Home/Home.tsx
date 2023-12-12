@@ -17,9 +17,9 @@ const Home = () => {
         handleCloseProjectForm={handleCloseProjectForm}
       />
       <Container className="mt-4">
-        <h2 className="text-center mb-2">Hello {name}!</h2>
+        <h2 className="text-center">Hello {name}!</h2>
 
-        <Row className="my-5">
+        <Row className="my-4">
           <Col className="mt-2">
             <h3 className="mb-3">My Projects</h3>
             <Card>
