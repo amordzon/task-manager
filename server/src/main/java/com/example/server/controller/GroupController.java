@@ -31,11 +31,18 @@ public class GroupController {
         return new BaseDTO("Groups info", groupsDTO);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/group/{id}")
     public BaseDTO getGroup(@PathVariable String id) throws ResourceNotFoundException {
         Group group = groupService.getGroup(id);
         GroupDTO groupDTO = modelMapper.map(group, GroupDTO.class);
         return new BaseDTO("Group info", groupDTO);
+    }
+
+    @GetMapping("/my-groups")
+    public BaseDTO getMyGroups() throws ResourceNotFoundException {
+        List<Group> groups = groupService.getMyGroups();
+        List<GroupDTO> groupsDTO = groups.stream().map((group)-> modelMapper.map(group, GroupDTO.class)).collect(Collectors.toList());
+        return new BaseDTO("My groups", groupsDTO);
     }
 
 

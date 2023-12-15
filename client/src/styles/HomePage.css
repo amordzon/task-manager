@@ -84,3 +84,7 @@
   box-shadow: none;
   border-color: #dad7cd;
 }
+
+.__card {
+  height: 200px;
+}

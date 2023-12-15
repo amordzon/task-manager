@@ -9,13 +9,10 @@ import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +28,18 @@ public class GroupService {
     public Group getGroup(String id) {
         return groupRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Group not found"));
+    }
+
+
+    public List<Group> getMyGroups() {
+        String userID = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getDetails() != null) {
+            userID = authentication.getDetails().toString();
+        }
+        User user = userRepository.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return groupRepository.findAllByUsersContaining(user);
+
     }
 
 

@@ -15,6 +15,16 @@
   color: white;
 }
 
-.btn-primary {
+.__primary-btn {
   background-color: #588157;
+  font-size: 18px;
+  border: none;
+  display: inline-block;
+  width: auto;
+}
+
+.__primary-btn:hover,
+.__primary-btn:active,
+.__primary-btn:visited {
+  background-color: #3a5a40 !important;
 }
