@@ -14,7 +14,11 @@ const MyProjects = ({ handleShowProjectForm }: ModalProps) => {
   const [visibleGroups, setVisibleGroups] = useState<Group[] | []>([]);
 
   useEffect(() => {
-    api
+    getMyProjects();
+  }, []);
+
+  const getMyProjects = async () => {
+    await api
       .get("/groups/my-groups", {
         headers: {
           Authorization: `Bearer ${keycloak.token}`,
@@ -29,7 +33,7 @@ const MyProjects = ({ handleShowProjectForm }: ModalProps) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
 
   const showGroups = () => {
     myGroups.length == visibleGroups.length
