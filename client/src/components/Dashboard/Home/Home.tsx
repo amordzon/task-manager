@@ -4,6 +4,7 @@ import { Container, Row, Col, Alert } from "react-bootstrap";
 import useModal from "../../../hooks/useModal";
 import NewProject from "../Projects/NewProject";
 import MyProjects from "./MyProjects";
+import MyUpcomingTasks from "./MyUpcomingTasks";
 
 const Home = () => {
   const { keycloak } = useKeycloak();
@@ -28,14 +29,7 @@ const Home = () => {
           </Col>
         </Row>
 
-        <Row className="my-4">
-          <Col className="mt-2">
-            <h3 className="mb-3">My Upcoming Tasks</h3>
-            <Alert variant="warning">
-              You have no upcoming tasks assigned to you
-            </Alert>
-          </Col>
-        </Row>
+        <MyUpcomingTasks />
       </Container>
     </>
   );
