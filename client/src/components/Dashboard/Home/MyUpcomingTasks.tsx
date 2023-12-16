@@ -46,9 +46,10 @@ const MyUpcomingTasks = () => {
           <>
             {visibleTasks.map((task, index) => (
               <Col key={index} className="mt-2" xs={12}>
-                <Card className="d-flex flex-wrap flex-row justify-content-between py-2">
+                <Card className="d-flex flex-wrap flex-row justify-content-between  __mytask">
                   <div>
                     <Card.Body>
+                      <p className="mb-1">{task.group.name}</p>
                       <h5>{task.title}</h5>
                       <p>
                         Deadline:{" "}

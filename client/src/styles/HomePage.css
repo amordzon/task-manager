@@ -88,3 +88,8 @@
 .__card {
   height: 200px;
 }
+
+.__mytask:hover {
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
