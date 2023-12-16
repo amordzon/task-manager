@@ -11,8 +11,14 @@
   color: #dad7cd;
 }
 
+.nav-link:visited,
+.nav-link:active,
+.nav-link:focus {
+  color: #dad7cd;
+}
+
 .nav-link:hover {
-  color: white;
+  color: white !important;
 }
 
 .__primary-btn {
