@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -52,17 +52,20 @@ public class Task {
     @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    @Column(name="created_at", updatable = false)
-    @CreationTimestamp(source = SourceType.DB)
-    private Instant createdAt;
+    @Column(name="deadline")
+    private LocalDateTime deadline;
 
-    @Column(name="updated_at")
-    @UpdateTimestamp(source = SourceType.DB)
-    private Instant updatedAt;
+    @Column(name="created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name="updated_at", nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = Instant.now();
+        updatedAt = LocalDateTime.now();
     }
 }

@@ -3,6 +3,7 @@ package com.example.server.service;
 
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Group;
+import com.example.server.model.Status;
 import com.example.server.model.Task;
 import com.example.server.model.User;
 import com.example.server.repository.GroupRepository;
@@ -21,12 +22,20 @@ public class TaskService {
     private GroupRepository groupRepository;
     private UserRepository userRepository;
 
+    private UserService userService;
+
     public List<Task> getTasks() {
         return taskRepository.findAll();
     }
 
     public Task getTask(String taskID) {
         return taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
+    }
+
+
+    public List<Task> getMyUpcomingTasks() {
+        User user = userService.getCurrentUser();
+        return taskRepository.findAllByUsersContainingAndStatusIsNotOrderByDeadlineAsc(user, Status.COMPLETED);
     }
 
     public Task createTask(Task task, String groupID) {
@@ -44,6 +53,7 @@ public class TaskService {
         taskToUpdate.setDescription(task.getDescription());
         addUsersToTask(taskToUpdate);
         taskToUpdate.setStatus(task.getStatus());
+        taskToUpdate.setDeadline(task.getDeadline());
         return taskRepository.save(taskToUpdate);
     }
 

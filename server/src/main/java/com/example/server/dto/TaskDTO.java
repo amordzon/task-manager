@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -28,7 +28,9 @@ public class TaskDTO {
 
     private Group group;
 
-    private Instant createdAt;
+    private LocalDateTime deadline;
 
-    private Instant updatedAt;
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 }

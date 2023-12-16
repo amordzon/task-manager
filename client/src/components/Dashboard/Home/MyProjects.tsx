@@ -60,13 +60,15 @@ const MyProjects = ({ handleShowProjectForm }: ModalProps) => {
               </Card>
             </Col>
           ))}
-          <div className="text-end mt-3">
-            <Button variant="success" onClick={showGroups}>
-              {visibleGroups.length == myGroups.length
-                ? "Show less"
-                : "Show All"}
-            </Button>
-          </div>
+          {myGroups.length > 4 && (
+            <div className="text-end mt-3">
+              <Button variant="success" onClick={showGroups}>
+                {visibleGroups.length == myGroups.length
+                  ? "Show less"
+                  : "Show all"}
+              </Button>
+            </div>
+          )}
         </>
       ) : (
         <Col className="mt-2">

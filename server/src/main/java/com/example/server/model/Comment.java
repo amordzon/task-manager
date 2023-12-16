@@ -8,11 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -40,18 +39,19 @@ public class Comment {
     private String body;
 
 
-    @Column(name="created_at", updatable = false)
-    @CreationTimestamp(source = SourceType.DB)
-    private Instant createdAt;
+    @Column(name="created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    @Column(name="updated_at")
-    @UpdateTimestamp(source = SourceType.DB)
-    private Instant updatedAt;
+    @Column(name="updated_at", nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = Instant.now();
+        updatedAt = LocalDateTime.now();
     }
 
 }
