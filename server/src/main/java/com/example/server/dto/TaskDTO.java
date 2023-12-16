@@ -28,6 +28,8 @@ public class TaskDTO {
 
     private Group group;
 
+    private LocalDateTime deadline;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

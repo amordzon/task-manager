@@ -52,6 +52,9 @@ public class Task {
     @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
+    @Column(name="deadline")
+    private LocalDateTime deadline;
+
     @Column(name="created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -59,7 +62,6 @@ public class Task {
     @Column(name="updated_at", nullable = false)
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
 
 
     @PreUpdate

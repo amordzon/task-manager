@@ -28,7 +28,14 @@ public class TaskController {
         return new BaseDTO("Tasks info", tasksDTO);
     }
 
-    @GetMapping("/{taskID}")
+    @GetMapping("/my-upcoming-tasks")
+    public BaseDTO getMyUpcomingTasks(){
+        List<Task> tasks = taskService.getMyUpcomingTasks();
+        List<TaskDTO> tasksDTO = tasks.stream().map((task)-> modelMapper.map(task, TaskDTO.class)).collect(Collectors.toList());
+        return new BaseDTO("Tasks info", tasksDTO);
+    }
+
+    @GetMapping("/task/{taskID}")
     public BaseDTO getTask(@PathVariable String taskID) throws ResourceNotFoundException {
         Task task = taskService.getTask(taskID);
         TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);

@@ -9,6 +9,8 @@ import com.example.server.repository.GroupRepository;
 import com.example.server.repository.TaskRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +31,17 @@ public class TaskService {
         return taskRepository.findById(taskID).orElseThrow(()-> new ResourceNotFoundException("Task with this ID does not exist"));
     }
 
+
+    public List<Task> getMyUpcomingTasks() {
+        String userID = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getDetails() != null) {
+            userID = authentication.getDetails().toString();
+        }
+        User user = userRepository.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return taskRepository.findAllByUsersContainingOrderByDeadlineAsc(user);
+    }
+
     public Task createTask(Task task, String groupID) {
         Group group = groupRepository.findById(groupID).orElseThrow(()-> new ResourceNotFoundException("Group with this ID does not exist"));
         task.setGroup(group);
@@ -44,6 +57,7 @@ public class TaskService {
         taskToUpdate.setDescription(task.getDescription());
         addUsersToTask(taskToUpdate);
         taskToUpdate.setStatus(task.getStatus());
+        taskToUpdate.setDeadline(task.getDeadline());
         return taskRepository.save(taskToUpdate);
     }
 
