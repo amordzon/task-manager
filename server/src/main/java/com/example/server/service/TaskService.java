@@ -3,6 +3,7 @@ package com.example.server.service;
 
 import com.example.server.exception.ResourceNotFoundException;
 import com.example.server.model.Group;
+import com.example.server.model.Status;
 import com.example.server.model.Task;
 import com.example.server.model.User;
 import com.example.server.repository.GroupRepository;
@@ -39,7 +40,7 @@ public class TaskService {
             userID = authentication.getDetails().toString();
         }
         User user = userRepository.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return taskRepository.findAllByUsersContainingOrderByDeadlineAsc(user);
+        return taskRepository.findAllByUsersContainingAndStatusIsNotOrderByDeadlineAsc(user, Status.COMPLETED);
     }
 
     public Task createTask(Task task, String groupID) {

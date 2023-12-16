@@ -24,7 +24,7 @@ const MyUpcomingTasks = () => {
       .then((response) => {
         const tasks = response.data.data;
         setMyTasks(tasks);
-        setVisibleTasks(myTasks.slice(0, Math.min(tasks.length, 4)));
+        setVisibleTasks(tasks.slice(0, Math.min(tasks.length, 4)));
         console.log(tasks);
       })
       .catch((error) => {
