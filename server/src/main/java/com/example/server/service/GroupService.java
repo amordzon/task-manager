@@ -19,7 +19,7 @@ import java.util.List;
 public class GroupService {
     private GroupRepository groupRepository;
     private UserRepository userRepository;
-
+    private UserService userService;
 
     public List<Group> getGroups() {
         return groupRepository.findAll();
@@ -32,12 +32,7 @@ public class GroupService {
 
 
     public List<Group> getMyGroups() {
-        String userID = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getDetails() != null) {
-            userID = authentication.getDetails().toString();
-        }
-        User user = userRepository.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userService.getCurrentUser();
         return groupRepository.findAllByUsersContaining(user);
 
     }

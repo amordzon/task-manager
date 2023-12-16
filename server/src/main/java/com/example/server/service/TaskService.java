@@ -10,8 +10,6 @@ import com.example.server.repository.GroupRepository;
 import com.example.server.repository.TaskRepository;
 import com.example.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +22,8 @@ public class TaskService {
     private GroupRepository groupRepository;
     private UserRepository userRepository;
 
+    private UserService userService;
+
     public List<Task> getTasks() {
         return taskRepository.findAll();
     }
@@ -34,12 +34,7 @@ public class TaskService {
 
 
     public List<Task> getMyUpcomingTasks() {
-        String userID = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getDetails() != null) {
-            userID = authentication.getDetails().toString();
-        }
-        User user = userRepository.findById(userID).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userService.getCurrentUser();
         return taskRepository.findAllByUsersContainingAndStatusIsNotOrderByDeadlineAsc(user, Status.COMPLETED);
     }
 
