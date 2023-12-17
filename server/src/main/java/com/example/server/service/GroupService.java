@@ -33,7 +33,7 @@ public class GroupService {
 
     public List<Group> getMyGroups() {
         User user = userService.getCurrentUser();
-        return groupRepository.findAllByUsersContaining(user);
+        return groupRepository.findAllByUsersContainingOrderByCreatedAtDesc(user);
 
     }
 

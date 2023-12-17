@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useKeycloak } from "@react-keycloak/web";
 import api from "../../../api";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../store";
 import { Group } from "../../../types/Group";
+import { setGroups, showGroups } from "../../../slices/myGroupsSlice";
 
 type ModalProps = {
   handleShowProjectForm: () => void;
@@ -10,8 +13,8 @@ type ModalProps = {
 
 const MyProjects = ({ handleShowProjectForm }: ModalProps) => {
   const { keycloak } = useKeycloak();
-  const [myGroups, setMyGroups] = useState<Group[] | []>([]);
-  const [visibleGroups, setVisibleGroups] = useState<Group[] | []>([]);
+  const groups = useSelector((state: RootState) => state.myGroups);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getMyProjects();
@@ -25,27 +28,26 @@ const MyProjects = ({ handleShowProjectForm }: ModalProps) => {
         },
       })
       .then((response) => {
-        const groups = response.data.data;
-        setMyGroups(groups);
-        setVisibleGroups(groups.slice(0, Math.min(groups.length, 4)));
-        console.log(myGroups);
+        const groupsData = response.data.data;
+        dispatch(setGroups(groupsData));
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const showGroups = () => {
-    myGroups.length == visibleGroups.length
-      ? setVisibleGroups(myGroups.slice(0, Math.min(myGroups.length, 4)))
-      : setVisibleGroups(myGroups);
+  const showMyGroups = () => {
+    dispatch(showGroups());
   };
+
   return (
-    <Row className={visibleGroups.length > 0 ? "d-flex flex-wrap" : "grid"}>
+    <Row
+      className={groups.visibleGroups.length > 0 ? "d-flex flex-wrap" : "grid"}
+    >
       <h3>My Projects</h3>
-      {visibleGroups.length > 0 ? (
+      {groups.visibleGroups.length > 0 ? (
         <>
-          {visibleGroups.map((group, index) => (
+          {groups.visibleGroups.map((group: Group, index) => (
             <Col key={index} className="mt-2" xs={12} sm={12} md={6}>
               <Card className="__card py-2">
                 <Card.Body className="d-flex flex-column text-center">
@@ -60,10 +62,10 @@ const MyProjects = ({ handleShowProjectForm }: ModalProps) => {
               </Card>
             </Col>
           ))}
-          {myGroups.length > 4 && (
+          {groups.myGroups.length > 4 && (
             <div className="text-end mt-3">
-              <Button variant="success" onClick={showGroups}>
-                {visibleGroups.length == myGroups.length
+              <Button variant="success" onClick={showMyGroups}>
+                {groups.visibleGroups.length == groups.myGroups.length
                   ? "Show less"
                   : "Show all"}
               </Button>

@@ -1,10 +1,11 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-
+import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import { useKeycloak } from "@react-keycloak/web";
 import api from "../api";
+import { addGroups } from "../slices/myGroupsSlice";
 
 type ModalProps = {
   handleCloseProjectForm: () => void;
@@ -41,6 +42,8 @@ const useNewProject = ({ handleCloseProjectForm }: ModalProps) => {
     name: "users",
   });
 
+  const dispatch = useDispatch();
+
   const watchFieldArray = watch("users");
   const controlledFields = watchFieldArray
     ? fields.map((field, index) => ({
@@ -73,7 +76,7 @@ const useNewProject = ({ handleCloseProjectForm }: ModalProps) => {
 
       console.log(userEmails);
 
-      await api.post(
+      const response = await api.post(
         "/groups",
         {
           name: data.name,
@@ -85,7 +88,7 @@ const useNewProject = ({ handleCloseProjectForm }: ModalProps) => {
           },
         }
       );
-
+      dispatch(addGroups(response.data.data));
       reset();
       toast.success("New project created successfully!", {
         position: "top-right",
