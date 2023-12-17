@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, String> {
-    List<Group> findAllByUsersContaining(User user);
+    List<Group> findAllByUsersContainingOrderByCreatedAtDesc(User user);
 }

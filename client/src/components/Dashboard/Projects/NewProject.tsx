@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useNewProject from "../../../hooks/useNewProject";

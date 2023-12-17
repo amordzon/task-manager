@@ -29,9 +29,16 @@ export const myGroupsSlice = createSlice({
           ? state.myGroups.slice(0, Math.min(state.myGroups.length, 4))
           : state.myGroups;
     },
+    addGroups(state: GroupsType, action: PayloadAction<Group>) {
+      state.myGroups = [action.payload, ...state.myGroups];
+      state.visibleGroups =
+        state.myGroups.length == state.visibleGroups.length + 1
+          ? state.myGroups
+          : state.myGroups.slice(0, Math.min(state.myGroups.length, 4));
+    },
   },
 });
 
-export const { setGroups, showGroups } = myGroupsSlice.actions;
+export const { setGroups, showGroups, addGroups } = myGroupsSlice.actions;
 
 export default myGroupsSlice.reducer;
