@@ -4,12 +4,21 @@ import useLogout from "../hooks/useLogout";
 import { Navigate } from "react-router";
 import useModal from "../hooks/useModal";
 import NewProject from "./Dashboard/Projects/NewProject";
+import { useSelector } from "react-redux";
+import { Group } from "../types/Group";
+import { RootState } from "../store";
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("Home");
   const { isLoggedIn, logOut } = useLogout();
   const { handleShowProjectForm, showNewProjectForm, handleCloseProjectForm } =
     useModal();
+  const [openCollapse, setOpenCollapse] = useState(false);
+  const groups = useSelector((state: RootState) => state.myGroups);
+
+  const handleCollapseToggle = () => {
+    setOpenCollapse(!openCollapse);
+  };
 
   if (!isLoggedIn) {
     return <Navigate to="/" />;
@@ -48,15 +57,15 @@ const Sidebar = () => {
               Activity
             </Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              href="#"
-              onClick={() => setActiveLink("Projects")}
-              active={activeLink === "Projects"}
-            >
-              Projects
-            </Nav.Link>
-          </Nav.Item>
+          <Nav.Link onClick={handleCollapseToggle}>Projects</Nav.Link>
+          <div className={`__submenu ${openCollapse ? "show" : ""}`}>
+            {groups.myGroups.length > 0 &&
+              groups.myGroups.map((group: Group, index: number) => (
+                <Nav.Item key={index}>
+                  <Nav.Link href="#">{group.name}</Nav.Link>
+                </Nav.Item>
+              ))}
+          </div>
           <Nav.Item>
             <Nav.Link href="#" onClick={handleShowProjectForm} active={false}>
               Add New
