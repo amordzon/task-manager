@@ -62,7 +62,13 @@ const Sidebar = () => {
             {groups.myGroups.length > 0 &&
               groups.myGroups.map((group: Group, index: number) => (
                 <Nav.Item key={index}>
-                  <Nav.Link href="#">{group.name}</Nav.Link>
+                  <Nav.Link
+                    href="#"
+                    onClick={() => setActiveLink(group.name)}
+                    active={activeLink === group.name}
+                  >
+                    {group.name}
+                  </Nav.Link>
                 </Nav.Item>
               ))}
           </div>
