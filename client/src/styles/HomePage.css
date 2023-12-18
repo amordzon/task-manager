@@ -84,24 +84,3 @@
   box-shadow: none;
   border-color: #dad7cd;
 }
-
-.__card {
-  height: 200px;
-}
-
-.__mytask:hover {
-  cursor: pointer;
-  background-color: #f9f9f9;
-}
-
-.__submenu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
-  margin-left: 10px;
-}
-
-.__submenu.show {
-  max-height: 160px;
-  overflow-y: auto;
-}
