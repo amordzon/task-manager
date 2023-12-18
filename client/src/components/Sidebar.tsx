@@ -7,6 +7,15 @@ import NewProject from "./Dashboard/Projects/NewProject";
 import { useSelector } from "react-redux";
 import { Group } from "../types/Group";
 import { RootState } from "../store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBell,
+  faHouse,
+  faLayerGroup,
+  faPlus,
+  faRightFromBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("Home");
@@ -45,7 +54,8 @@ const Sidebar = () => {
               onClick={() => setActiveLink("Home")}
               active={activeLink === "Home"}
             >
-              Home
+              <FontAwesomeIcon icon={faHouse} />
+              <span className="ms-2">Home</span>
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
@@ -54,10 +64,14 @@ const Sidebar = () => {
               onClick={() => setActiveLink("Activity")}
               active={activeLink === "Activity"}
             >
-              Activity
+              <FontAwesomeIcon icon={faBell} />
+              <span className="ms-2">Activity</span>
             </Nav.Link>
           </Nav.Item>
-          <Nav.Link onClick={handleCollapseToggle}>Projects</Nav.Link>
+          <Nav.Link onClick={handleCollapseToggle}>
+            <FontAwesomeIcon icon={faLayerGroup} />
+            <span className="ms-2">Projects</span>
+          </Nav.Link>
           <div className={`__submenu ${openCollapse ? "show" : ""}`}>
             {groups.myGroups.length > 0 &&
               groups.myGroups.map((group: Group, index: number) => (
@@ -74,15 +88,22 @@ const Sidebar = () => {
           </div>
           <Nav.Item>
             <Nav.Link href="#" onClick={handleShowProjectForm} active={false}>
-              Add New
+              <FontAwesomeIcon icon={faPlus} />
+              <span className="ms-2">Add New</span>
             </Nav.Link>
           </Nav.Item>
         </Nav>
 
         <NavDropdown title="User" id="dropdown" className="dropdown mt-auto">
-          <NavDropdown.Item href="#">Profile</NavDropdown.Item>
+          <NavDropdown.Item href="#">
+            <FontAwesomeIcon icon={faUser} />
+            <span className="ms-2">Profile</span>
+          </NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item onClick={logOut}>Sign out</NavDropdown.Item>
+          <NavDropdown.Item onClick={logOut}>
+            <FontAwesomeIcon icon={faRightFromBracket} />
+            <span className="ms-2">Sign out</span>
+          </NavDropdown.Item>
         </NavDropdown>
       </Col>
     </>

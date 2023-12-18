@@ -21,6 +21,11 @@
   color: #dad7cd;
 }
 
+.nav-link > svg {
+  height: 17px;
+  width: 17px;
+}
+
 .nav-link:visited,
 .nav-link:active,
 .nav-link:focus {
@@ -58,7 +63,7 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
-  margin-left: 10px;
+  margin-left: 25px;
 }
 
 .__submenu.show {
