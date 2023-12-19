@@ -17,6 +17,10 @@
   background-color: #a3b18a !important;
 }
 
+.nav-item > a {
+  text-decoration: none;
+}
+
 .nav-link {
   color: #dad7cd;
 }
