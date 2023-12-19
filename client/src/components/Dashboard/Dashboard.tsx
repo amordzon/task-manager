@@ -9,7 +9,7 @@ const Dashboard = () => {
     <Container className="min-vh-100" fluid>
       <Row>
         <Sidebar />
-        <Col className="col-xl-8 offset-3">
+        <Col className="col-md-9 col-xl-10 offset-md-3 offset-xl-2">
           <Outlet />
         </Col>
       </Row>

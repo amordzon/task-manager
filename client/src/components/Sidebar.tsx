@@ -50,7 +50,7 @@ const Sidebar = () => {
         <Nav className="nav nav-pills flex-column mb-auto">
           <Nav.Item>
             <NavLink
-              to=""
+              to="/dashboard/#"
               className={({ isActive }) =>
                 isActive ? "nav-link active" : "nav-link"
               }
