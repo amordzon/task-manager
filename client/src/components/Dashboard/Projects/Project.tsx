@@ -93,16 +93,30 @@ const Project = () => {
           <small className="__small-text">{group?.description}</small>
         </Col>
         <Col className="d-flex align-items-center justify-content-end">
-          <div className="p-md-3 px-3">
-            {group?.users.map((user, index) => (
-              <Image
-                key={index}
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-                className="mx-1"
-              />
-            ))}
+          <div className="p-md-3 px-3 d-flex align-items-center">
+            <div className="d-flex align-items-center">
+              {group?.users
+                .slice(0, Math.min(3, group.users.length))
+                .map((user, index) => (
+                  <Image
+                    key={index}
+                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                    roundedCircle
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                    }}
+                  />
+                ))}
+              {group?.users && group?.users.length > 3 && (
+                <div
+                  className="__task-badge-users-lg"
+                  style={{ width: "30px", height: "30px" }}
+                >
+                  +{group.users?.length - 3}
+                </div>
+              )}
+            </div>
 
             <Button variant="outline-secondary" className="rounded-pill mx-2">
               Invite
@@ -151,14 +165,22 @@ const Project = () => {
                         </div>
                         {task.users && task.users?.length > 0 && (
                           <>
-                            {task.users.map((user, index) => {
-                              <Image
-                                key={index}
-                                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                                roundedCircle
-                                style={{ width: "22px", height: "22px" }}
-                              />;
-                            })}
+                            {task.users.length > 0 &&
+                              task.users
+                                .slice(0, Math.min(3, task.users.length))
+                                .map((user, index) => (
+                                  <Image
+                                    key={index}
+                                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                                    roundedCircle
+                                    style={{ width: "22px", height: "22px" }}
+                                  />
+                                ))}
+                            {task.users.length > 3 && (
+                              <div className="__task-badge-users">
+                                +{task.users?.length - 3}
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
@@ -167,6 +189,13 @@ const Project = () => {
                 </Card>
               )
             )}
+            <Card className="mb-3 __task-card-new">
+              <Card.Body>
+                <Card.Title className="__task-new-title">
+                  <FontAwesomeIcon icon={faPlus} /> Add New
+                </Card.Title>
+              </Card.Body>
+            </Card>
           </Col>
         ))}
       </Row>

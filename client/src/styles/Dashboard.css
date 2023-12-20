@@ -119,3 +119,52 @@
 .__task-comments-icon {
   color: rgb(63, 63, 63);
 }
+
+.__task-card-new {
+  text-align: center;
+  border: 1px dashed rgb(106, 106, 106);
+  cursor: pointer;
+  background-color: #fafafa;
+  color: rgb(66, 65, 65);
+}
+
+.__task-card-new:hover {
+  background-color: #f5f3f3;
+}
+
+.__task-card-new > div {
+  padding: 5px;
+}
+
+.__task-new-title {
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+
+.__task-badge-users {
+  font-size: 11px;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  background-color: #dddddd;
+  border-radius: 10px;
+  color: rgb(78, 78, 78);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.__task-badge-users-lg {
+  font-size: 13px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: #dddddd;
+  border-radius: 15px;
+  color: rgb(78, 78, 78);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
