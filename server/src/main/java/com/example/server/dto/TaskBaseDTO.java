@@ -1,20 +1,30 @@
 package com.example.server.dto;
 
+import com.example.server.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
+public class TaskBaseDTO {
     private String id;
+
+    private String title;
+
+    private String description;
+
+    private List<UserDTO> users;
 
     private UserDTO author;
 
-    private String body;
+    private Status status;
+
+    private LocalDateTime deadline;
 
     private LocalDateTime createdAt;
 
