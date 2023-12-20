@@ -7,7 +7,8 @@ export type Task = {
   description: string;
   users: User[] | null;
   author: User | null; //TODO: CHANGE THIS
-  status: string;
+  status: "TODO" | "INPROGRESS" | "TESTING" | "COMPLETED";
+  comments: Comment[];
   group: Group;
   deadline: string;
   createdAt: string;

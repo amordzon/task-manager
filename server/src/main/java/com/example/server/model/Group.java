@@ -41,7 +41,7 @@ public class Group {
     @ManyToOne
     private User admin;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "group")
     private List<Task> tasks;
 
     @Column(name="created_at", nullable = false, updatable = false)

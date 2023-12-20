@@ -5,16 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
+public class GroupBaseDTO {
     private String id;
 
-    private UserDTO author;
+    private String name;
 
-    private String body;
+    private String description;
+
+    private List<UserDTO> users;
+
+    private UserDTO admin;
 
     private LocalDateTime createdAt;
 

@@ -1,8 +1,6 @@
 package com.example.server.dto;
 
-import com.example.server.model.Group;
 import com.example.server.model.Status;
-import com.example.server.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,13 +18,16 @@ public class TaskDTO {
 
     private String description;
 
-    private List<User> users;
+    private List<UserDTO> users;
 
-    private User author;
+    private UserDTO author;
 
     private Status status;
 
-    private Group group;
+    private GroupBaseDTO group;
+
+    private List<CommentDTO> comments;
+
 
     private LocalDateTime deadline;
 

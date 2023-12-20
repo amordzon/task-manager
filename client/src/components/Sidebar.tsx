@@ -16,9 +16,9 @@ import {
   faRightFromBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
-  const [activeLink, setActiveLink] = useState("Home");
   const { isLoggedIn, logOut } = useLogout();
   const { handleShowProjectForm, showNewProjectForm, handleCloseProjectForm } =
     useModal();
@@ -49,24 +49,26 @@ const Sidebar = () => {
         <hr />
         <Nav className="nav nav-pills flex-column mb-auto">
           <Nav.Item>
-            <Nav.Link
-              href="#"
-              onClick={() => setActiveLink("Home")}
-              active={activeLink === "Home"}
+            <NavLink
+              to="/dashboard/#"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
             >
               <FontAwesomeIcon icon={faHouse} />
               <span className="ms-2">Home</span>
-            </Nav.Link>
+            </NavLink>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
-              href="#"
-              onClick={() => setActiveLink("Activity")}
-              active={activeLink === "Activity"}
+            <NavLink
+              to="activity"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
             >
               <FontAwesomeIcon icon={faBell} />
               <span className="ms-2">Activity</span>
-            </Nav.Link>
+            </NavLink>
           </Nav.Item>
           <Nav.Link onClick={handleCollapseToggle}>
             <FontAwesomeIcon icon={faLayerGroup} />
@@ -76,13 +78,14 @@ const Sidebar = () => {
             {groups.myGroups.length > 0 &&
               groups.myGroups.map((group: Group, index: number) => (
                 <Nav.Item key={index}>
-                  <Nav.Link
-                    href="#"
-                    onClick={() => setActiveLink(group.name)}
-                    active={activeLink === group.name}
+                  <NavLink
+                    to={`project/${group.id}`}
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
                   >
                     {group.name}
-                  </Nav.Link>
+                  </NavLink>
                 </Nav.Item>
               ))}
           </div>
