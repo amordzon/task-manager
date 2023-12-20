@@ -24,7 +24,7 @@ const Project = () => {
             Project Name{" "}
             <FontAwesomeIcon className="__ellipsis-icon" icon={faEllipsis} />
           </h2>
-          <small>
+          <small className="__small-text">
             Description of the project Description of the projectDescription of
             the project Description of the project Description of the project
             Description of the project
@@ -55,28 +55,33 @@ const Project = () => {
           </div>
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-2">
         <Col>
-          <div className="border-bottom mb-3 d-flex align-items-center justify-content-between">
-            <h5>
+          <div className="mb-3 d-flex align-items-center justify-content-between __task-status">
+            <h5 className="d-flex align-items-center ">
               TO DO
-              <Badge pill bg="success">
+              <Badge pill bg="success" className="__task-badge">
                 9
               </Badge>
             </h5>
             <FontAwesomeIcon icon={faPlus} />
           </div>
-          <Card className="mb-3">
+          <Card className="mb-3 __task-card">
             <Card.Body>
               <div>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>Some quick example</Card.Text>
+                <Card.Title className="__task-title">Card Title</Card.Title>
+                <Card.Text className="__task-description">
+                  Some quick example of really good description
+                </Card.Text>
               </div>
               <div className="ml-auto mt-2">
                 <div className="d-flex align-items-center justify-content-between">
                   <div>
-                    <FontAwesomeIcon icon={faComment} className="mr-1" />
-                    <span className="mx-2">2</span>
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="mr-1 __task-comments-icon"
+                    />
+                    <span className="mx-1">2</span>
                   </div>
                   <Image
                     src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
@@ -88,114 +93,170 @@ const Project = () => {
             </Card.Body>
           </Card>
 
-          <Card className="mb-2">
+          <Card className="mb-3 __task-card">
             <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
+              <div>
+                <Card.Title className="__task-title">Card Title</Card.Title>
+                <Card.Text className="__task-description">
+                  Some quick example of really good description
+                </Card.Text>
+              </div>
+              <div className="ml-auto mt-2">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="mr-1 __task-comments-icon"
+                    />
+                    <span className="mx-1">2</span>
+                  </div>
+                  <Image
+                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                    roundedCircle
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                </div>
+              </div>
             </Card.Body>
           </Card>
         </Col>
 
         <Col>
-          <div className="border-bottom mb-3">
-            <h5>
+          <div className="mb-3 d-flex align-items-center justify-content-between __task-status">
+            <h5 className="d-flex align-items-center ">
               IN PROGRESS
-              <Badge pill bg="success">
+              <Badge pill bg="success" className="__task-badge">
+                6
+              </Badge>
+            </h5>
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
+          <Card className="mb-3 __task-card">
+            <Card.Body>
+              <div>
+                <Card.Title className="__task-title">Card Title</Card.Title>
+                <Card.Text className="__task-description">
+                  Some quick example of really good description
+                </Card.Text>
+              </div>
+              <div className="ml-auto mt-2">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="mr-1 __task-comments-icon"
+                    />
+                    <span className="mx-1">2</span>
+                  </div>
+                  <Image
+                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                    roundedCircle
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col>
+          <div className="mb-3 d-flex align-items-center justify-content-between __task-status">
+            <h5 className="d-flex align-items-center ">
+              TESTING
+              <Badge pill bg="success" className="__task-badge">
                 2
               </Badge>
             </h5>
+            <FontAwesomeIcon icon={faPlus} />
           </div>
-          <Card className="mb-2">
+          <Card className="mb-3 __task-card">
             <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
+              <div>
+                <Card.Title className="__task-title">Card Title</Card.Title>
+                <Card.Text className="__task-description">
+                  Some quick example of really good description
+                </Card.Text>
+              </div>
+              <div className="ml-auto mt-2">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="mr-1 __task-comments-icon"
+                    />
+                    <span className="mx-1">2</span>
+                  </div>
+                  <Image
+                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                    roundedCircle
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                </div>
+              </div>
             </Card.Body>
           </Card>
-          <Card className="mb-2">
+          <Card className="mb-3 __task-card">
             <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
+              <div>
+                <Card.Title className="__task-title">Card Title</Card.Title>
+                <Card.Text className="__task-description">
+                  Some quick example of really good description
+                </Card.Text>
+              </div>
+              <div className="ml-auto mt-2">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="mr-1 __task-comments-icon"
+                    />
+                    <span className="mx-1">2</span>
+                  </div>
+                  <Image
+                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                    roundedCircle
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                </div>
+              </div>
             </Card.Body>
           </Card>
         </Col>
 
         <Col>
-          <div className="border-bottom mb-3">
-            <h5>
-              TESTING
-              <Badge pill bg="success">
-                4
-              </Badge>
-            </h5>
-          </div>
-          <Card className="mb-2">
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
-            </Card.Body>
-          </Card>
-          <Card className="mb-2">
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col>
-          <div className="border-bottom mb-3">
-            <h5>
+          <div className="mb-3 d-flex align-items-center justify-content-between __task-status">
+            <h5 className="d-flex align-items-center ">
               COMPLETED
-              <Badge pill bg="success">
-                3
+              <Badge pill bg="success" className="__task-badge">
+                7
               </Badge>
             </h5>
+            <FontAwesomeIcon icon={faPlus} />
           </div>
-          <Card className="mb-2">
+          <Card className="mb-3 __task-card">
             <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
-            </Card.Body>
-          </Card>
-          <Card className="mb-2">
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>Some quick example</Card.Text>
-              <Image
-                src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
-                roundedCircle
-                style={{ width: "30px", height: "30px" }}
-              />
+              <div>
+                <Card.Title className="__task-title">Card Title</Card.Title>
+                <Card.Text className="__task-description">
+                  Some quick example of really good description
+                </Card.Text>
+              </div>
+              <div className="ml-auto mt-2">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      className="mr-1 __task-comments-icon"
+                    />
+                    <span className="mx-1">2</span>
+                  </div>
+                  <Image
+                    src="https://htmlcolorcodes.com/assets/images/colors/blue-color-solid-background-1920x1080.png"
+                    roundedCircle
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                </div>
+              </div>
             </Card.Body>
           </Card>
         </Col>

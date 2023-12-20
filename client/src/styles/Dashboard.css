@@ -73,3 +73,49 @@
 .__submenu.show {
   max-height: 100vh;
 }
+
+.__ellipsis-icon {
+  font-size: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.__small-text {
+  font-size: 14px;
+  color: rgb(111, 111, 111);
+}
+
+.__task-status {
+  padding-bottom: 13px;
+  border-bottom: 2px solid #578960;
+}
+
+.__task-status > h5 {
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+.__task-badge {
+  margin-left: 5px;
+  font-size: 11px;
+}
+
+.__task-card {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 16px -6px rgba(176, 176, 183, 1);
+  -moz-box-shadow: 0px 0px 16px -6px rgba(176, 176, 183, 1);
+  box-shadow: 0px 0px 16px -6px rgba(176, 176, 183, 1);
+}
+
+.__task-title {
+  font-size: 17px;
+}
+
+.__task-description {
+  font-size: 13px;
+  color: rgb(111, 111, 111);
+}
+
+.__task-comments-icon {
+  color: rgb(63, 63, 63);
+}
