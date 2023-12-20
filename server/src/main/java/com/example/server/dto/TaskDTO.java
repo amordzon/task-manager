@@ -26,6 +26,9 @@ public class TaskDTO {
 
     private GroupBaseDTO group;
 
+    private List<CommentDTO> comments;
+
+
     private LocalDateTime deadline;
 
     private LocalDateTime createdAt;

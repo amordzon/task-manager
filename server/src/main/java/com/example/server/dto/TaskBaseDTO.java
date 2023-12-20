@@ -1,5 +1,6 @@
 package com.example.server.dto;
 
+import com.example.server.model.Comment;
 import com.example.server.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class TaskBaseDTO {
     private UserDTO author;
 
     private Status status;
+
+    private List<CommentDTO> comments;
 
     private LocalDateTime deadline;
 
