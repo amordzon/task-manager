@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   faComment,
   faEllipsis,
@@ -14,73 +14,10 @@ import {
   Card,
   Badge,
 } from "react-bootstrap";
-import { useKeycloak } from "@react-keycloak/web";
-import { Group } from "../../../types/Group";
-import api from "../../../api";
-import { useParams } from "react-router-dom";
-import { Task } from "../../../types/Task";
-import { TaskStatus } from "../../../types/TaskStatus";
+import useProjectDetails from "../../../hooks/useProjectDetails";
 
 const Project = () => {
-  const { keycloak } = useKeycloak();
-  const [group, setGroup] = useState<Group | null>(null);
-  const { id } = useParams();
-  const [tasksByStatus, setTasksByStatus] = useState<TaskStatus>({
-    TODO: [],
-    INPROGRESS: [],
-    TESTING: [],
-    COMPLETED: [],
-  });
-
-  useEffect(() => {
-    getGroupDetails();
-  }, [id]);
-
-  const getGroupDetails = async () => {
-    await api
-      .get("/groups/group/" + id, {
-        headers: {
-          Authorization: `Bearer ${keycloak.token}`,
-        },
-      })
-      .then((response) => {
-        const groupInfo = response.data.data;
-        setGroup(groupInfo);
-        reduceTasks(groupInfo.tasks);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const reduceTasks = (tasks: Task[]) => {
-    const result: TaskStatus = {
-      TODO: [],
-      INPROGRESS: [],
-      TESTING: [],
-      COMPLETED: [],
-    };
-
-    tasks.forEach((task) => {
-      switch (task.status) {
-        case "TODO":
-          result.TODO.push(task);
-          break;
-        case "INPROGRESS":
-          result.INPROGRESS.push(task);
-          break;
-        case "TESTING":
-          result.TESTING.push(task);
-          break;
-        case "COMPLETED":
-          result.COMPLETED.push(task);
-          break;
-        default:
-          break;
-      }
-    });
-    setTasksByStatus(result);
-  };
+  const { group, tasksByStatus } = useProjectDetails();
 
   return (
     <Container className="mt-4">
