@@ -40,7 +40,7 @@ public class Task {
     @OneToMany
     private List<User> users;
 
-    @OneToOne
+    @ManyToOne
     private User author;
 
     @ManyToOne

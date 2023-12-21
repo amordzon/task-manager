@@ -30,7 +30,6 @@ public class User {
     private String username;
 
     @ManyToMany
-    @JsonIgnore
     private List<Group> groups;
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
