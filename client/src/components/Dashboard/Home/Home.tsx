@@ -9,18 +9,17 @@ import MyUpcomingTasks from "./MyUpcomingTasks";
 const Home = () => {
   const { keycloak } = useKeycloak();
   const { name } = keycloak.idTokenParsed || {};
-  const { handleShowProjectForm, showNewProjectForm, handleCloseProjectForm } =
-    useModal();
+  const { showModal, handleCloseModal, handleShowModal } = useModal();
 
   return (
     <>
       <NewProject
-        showNewProjectForm={showNewProjectForm}
-        handleCloseProjectForm={handleCloseProjectForm}
+        showNewProjectForm={showModal}
+        handleCloseProjectForm={handleCloseModal}
       />
       <Container className="mt-4">
         <h2 className="text-center">Hello {name}!</h2>
-        <MyProjects handleShowProjectForm={handleShowProjectForm} />
+        <MyProjects handleShowProjectForm={handleShowModal} />
 
         <Row className="my-4">
           <Col className="mt-2">

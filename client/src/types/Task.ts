@@ -1,5 +1,6 @@
 import { Group } from "./Group";
 import { User } from "./User";
+import { Comment } from "./Comment";
 
 export type Task = {
   id: string;

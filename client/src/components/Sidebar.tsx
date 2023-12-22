@@ -20,8 +20,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const { isLoggedIn, logOut } = useLogout();
-  const { handleShowProjectForm, showNewProjectForm, handleCloseProjectForm } =
-    useModal();
+  const { showModal, handleCloseModal, handleShowModal } = useModal();
   const [openCollapse, setOpenCollapse] = useState(false);
   const groups = useSelector((state: RootState) => state.myGroups);
 
@@ -36,8 +35,8 @@ const Sidebar = () => {
   return (
     <>
       <NewProject
-        showNewProjectForm={showNewProjectForm}
-        handleCloseProjectForm={handleCloseProjectForm}
+        showNewProjectForm={showModal}
+        handleCloseProjectForm={handleCloseModal}
       />
       <Col className="p-3 d-flex flex-column col-md-3 col-lg-3 col-xl-2 vh-100 position-fixed  __sidebar">
         <a
@@ -90,7 +89,7 @@ const Sidebar = () => {
               ))}
           </div>
           <Nav.Item>
-            <Nav.Link href="#" onClick={handleShowProjectForm} active={false}>
+            <Nav.Link href="#" onClick={handleShowModal} active={false}>
               <FontAwesomeIcon icon={faPlus} />
               <span className="ms-2">Add New</span>
             </Nav.Link>

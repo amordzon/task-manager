@@ -18,10 +18,6 @@ public class GroupBaseDTO {
 
     private String description;
 
-    private List<UserDTO> users;
-
-    private UserDTO admin;
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

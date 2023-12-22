@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 const useModal = () => {
-  const [showNewProjectForm, setShowNewProjectForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleCloseProjectForm = () => setShowNewProjectForm(false);
-  const handleShowProjectForm = () => setShowNewProjectForm(true);
-  return { showNewProjectForm, handleCloseProjectForm, handleShowProjectForm };
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+  return { showModal, handleCloseModal, handleShowModal };
 };
 
 export default useModal;
