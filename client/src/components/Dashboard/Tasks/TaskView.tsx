@@ -8,14 +8,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Col, Container, Modal, Row, Image, Form } from "react-bootstrap";
 import "../../../styles/Task.css";
+import { Task } from "../../../types/Task";
+import moment from "moment";
+import { Comment } from "../../../types/Comment";
 
 type ModalProps = {
   showTaskModal: boolean;
   handleCloseTaskModal: () => void;
+  selectedTask: Task;
 };
 
-/* eslint-disable */
-const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
+const TaskView = ({
+  showTaskModal,
+  handleCloseTaskModal,
+  selectedTask,
+}: ModalProps) => {
   return (
     <>
       <Modal
@@ -27,7 +34,7 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <FontAwesomeIcon icon={faBarsProgress} /> Plan marketing campaign
+            <FontAwesomeIcon icon={faBarsProgress} /> {selectedTask?.title}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -37,11 +44,14 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
                 <div>
                   <div className="__task-attribute">STATUS</div>
                   <div className="d-flex justify-content-center">
-                    <select className="form-select">
-                      <option selected>TODO</option>
-                      <option value="1">IN PROGRESS</option>
-                      <option value="2">TESTING</option>
-                      <option value="3">COMPLETED</option>
+                    <select
+                      className="form-select"
+                      value={selectedTask ? selectedTask.status : "TODO"}
+                    >
+                      <option value="TODO">TODO</option>
+                      <option value="INPROGRESS">IN PROGRESS</option>
+                      <option value="TESTING">TESTING</option>
+                      <option value="COMPLETED">COMPLETED</option>
                     </select>
                   </div>
                 </div>
@@ -50,11 +60,26 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
                 <div>
                   <div className="__task-attribute">USERS</div>
                   <div className="d-flex justify-content-center gap-1">
-                    <Image
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
-                      roundedCircle
-                      style={{ width: "25px", height: "25px" }}
-                    />
+                    {selectedTask.users &&
+                      selectedTask.users
+                        .slice(0, Math.min(3, selectedTask.users.length))
+                        .map((user, index) => (
+                          <Image
+                            key={index}
+                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                            roundedCircle
+                            style={{ width: "25px", height: "25px" }}
+                            title={user.firstName + " " + user.lastName}
+                          />
+                        ))}
+                    {selectedTask.users && selectedTask.users.length > 3 && (
+                      <div
+                        className="__task-badge-users-lg"
+                        style={{ width: "25px", height: "25px" }}
+                      >
+                        +{selectedTask.users?.length - 3}
+                      </div>
+                    )}
                     <FontAwesomeIcon
                       icon={faCirclePlus}
                       style={{ width: "25px", height: "25px" }}
@@ -70,6 +95,11 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
                       src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
                       roundedCircle
                       style={{ width: "25px", height: "25px" }}
+                      title={
+                        selectedTask.author?.firstName +
+                        " " +
+                        selectedTask.author?.lastName
+                      }
                     />
                   </div>
                 </div>
@@ -78,7 +108,13 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
                 <div>
                   <div>
                     <div className="__task-attribute">DEADLINE</div>
-                    <div>Sept. 21 2024</div>
+                    <div>
+                      {selectedTask.deadline
+                        ? moment(selectedTask.deadline).format(
+                            "MMMM Do YYYY, h:mm a"
+                          )
+                        : "-"}
+                    </div>
                   </div>
                 </div>
               </Col>
@@ -89,11 +125,7 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
                   <div className="__task-label">
                     <FontAwesomeIcon icon={faFileLines} /> Description
                   </div>
-                  <div className="mt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                    vitae tempora esse inventore sunt perspiciatis mollitia
-                    aspernatur similique!
-                  </div>
+                  <div className="mt-2">{selectedTask.description}</div>
                 </div>
               </Col>
             </Row>
@@ -130,31 +162,40 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
                   </div>
 
                   <div>
-                    <Row className="d-flex pt-3 justify-content-start">
-                      <Col className="d-flex">
-                        <Image
-                          className="rounded-circle shadow-1-strong me-3"
-                          src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
-                          alt="avatar"
-                          width="40"
-                          height="40"
-                        />
-                        <div className="flex-grow-1 flex-shrink-1">
-                          <div>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <p className="mb-1">
-                                Maria Smantha{" "}
-                                <span className="small">- 2 hours ago</span>
-                              </p>
+                    {selectedTask.comments.map((comment: Comment, index) => (
+                      <Row
+                        className="d-flex pt-3 justify-content-start"
+                        key={index}
+                      >
+                        <Col className="d-flex">
+                          <Image
+                            className="rounded-circle shadow-1-strong me-3"
+                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                            alt="avatar"
+                            width="40"
+                            height="40"
+                          />
+                          <div className="flex-grow-1 flex-shrink-1">
+                            <div>
+                              <div className="d-flex justify-content-between align-items-center">
+                                <p className="mb-1">
+                                  {comment.author.firstName +
+                                    " " +
+                                    comment.author.lastName}{" "}
+                                  <span className="small">
+                                    -{" "}
+                                    {moment(comment.createdAt).format(
+                                      "MMMM Do YYYY, h:mm a"
+                                    )}
+                                  </span>
+                                </p>
+                              </div>
+                              <p className="small mb-0">{comment.body}</p>
                             </div>
-                            <p className="small mb-0">
-                              It is a long established fact that a reader will
-                              be distracted by the readable content of a page.
-                            </p>
                           </div>
-                        </div>
-                      </Col>
-                    </Row>
+                        </Col>
+                      </Row>
+                    ))}
                   </div>
                 </div>
               </Col>
@@ -166,4 +207,4 @@ const Task = ({ showTaskModal, handleCloseTaskModal }: ModalProps) => {
   );
 };
 
-export default Task;
+export default TaskView;

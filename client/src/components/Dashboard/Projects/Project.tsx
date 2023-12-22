@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   faComment,
   faEllipsis,
@@ -16,14 +16,24 @@ import {
 } from "react-bootstrap";
 import useProjectDetails from "../../../hooks/useProjectDetails";
 import useModal from "../../../hooks/useModal";
-import Task from "../Tasks/Task";
+import TaskView from "../Tasks/TaskView";
+import { Task } from "../../../types/Task";
 
 const Project = () => {
   const { group, tasksByStatus } = useProjectDetails();
   const { showModal, handleCloseModal, handleShowModal } = useModal();
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
   return (
     <>
-      <Task showTaskModal={showModal} handleCloseTaskModal={handleCloseModal} />
+      {selectedTask && (
+        <TaskView
+          showTaskModal={showModal}
+          handleCloseTaskModal={handleCloseModal}
+          selectedTask={selectedTask}
+        />
+      )}
+
       <Container className="mt-4">
         <Row className="align-items-center pb-4">
           <Col xs="auto" className="w-50">
@@ -83,7 +93,12 @@ const Project = () => {
               {tasksByStatus[status as keyof typeof tasksByStatus].map(
                 (task, index) => (
                   <Card className="mb-3 __task-card" key={index}>
-                    <Card.Body onClick={handleShowModal}>
+                    <Card.Body
+                      onClick={() => {
+                        setSelectedTask(task);
+                        handleShowModal();
+                      }}
+                    >
                       <div>
                         <Card.Title className="__task-title">
                           {task.title}
