@@ -15,21 +15,24 @@ import { Comment } from "../../../types/Comment";
 import api from "../../../api";
 import { useKeycloak } from "@react-keycloak/web";
 import { toast } from "react-toastify";
+import { TaskStatus } from "../../../types/TaskStatus";
 
 type ModalProps = {
   showTaskModal: boolean;
   handleCloseTaskModal: () => void;
   selectedTask: Task;
+  removeTask: (taskStat: keyof TaskStatus, id: string) => void;
 };
 
 const TaskView = ({
   showTaskModal,
   handleCloseTaskModal,
   selectedTask,
+  removeTask,
 }: ModalProps) => {
   const { keycloak } = useKeycloak();
 
-  const destroyTask = async (id: string) => {
+  const destroyTask = async (taskStat: keyof TaskStatus, id: string) => {
     await api
       .delete("/tasks/" + id, {
         headers: {
@@ -49,6 +52,7 @@ const TaskView = ({
           progress: undefined,
           theme: "light",
         });
+        removeTask(taskStat, id);
         handleCloseTaskModal();
       })
       .catch(() => {
@@ -79,7 +83,7 @@ const TaskView = ({
             <FontAwesomeIcon
               icon={faTrashCan}
               className="__task-destroy"
-              onClick={() => destroyTask(selectedTask.id)}
+              onClick={() => destroyTask(selectedTask.status, selectedTask.id)}
             />
           </Modal.Title>
         </Modal.Header>
