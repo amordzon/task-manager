@@ -12,12 +12,19 @@ import {
 } from "react-bootstrap";
 import useProjectDetails from "../../../hooks/useProjectDetails";
 import Tasks from "../Tasks/Tasks";
+import NewTask from "../Tasks/NewTask";
+import useModal from "../../../hooks/useModal";
 
 const Project = () => {
   const { group, tasksByStatus } = useProjectDetails();
+  const { showModal, handleCloseModal, handleShowModal } = useModal();
 
   return (
     <>
+      <NewTask
+        showNewTaskModal={showModal}
+        handleCloseNewTaskModal={handleCloseModal}
+      />
       <Container className="mt-4">
         <Row className="align-items-center pb-4">
           <Col xs="auto" className="w-50">
@@ -72,11 +79,18 @@ const Project = () => {
                     {tasksByStatus[status as keyof typeof tasksByStatus].length}
                   </Badge>
                 </h5>
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  onClick={handleShowModal}
+                  style={{ cursor: "pointer" }}
+                />
               </div>
               <Tasks tasksByStatus={tasksByStatus} status={status} />
               <Card className="mb-3 __task-card-new">
-                <Card.Body>
+                <Card.Body
+                  onClick={handleShowModal}
+                  style={{ cursor: "pointer" }}
+                >
                   <Card.Title className="__task-new-title">
                     <FontAwesomeIcon icon={faPlus} /> Add New
                   </Card.Title>

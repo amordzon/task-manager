@@ -94,15 +94,7 @@ const TaskView = ({
                 <div>
                   <div className="__task-attribute">STATUS</div>
                   <div className="d-flex justify-content-center">
-                    <select
-                      className="form-select"
-                      value={selectedTask ? selectedTask.status : "TODO"}
-                    >
-                      <option value="TODO">TODO</option>
-                      <option value="INPROGRESS">IN PROGRESS</option>
-                      <option value="TESTING">TESTING</option>
-                      <option value="COMPLETED">COMPLETED</option>
-                    </select>
+                    {selectedTask.status}
                   </div>
                 </div>
               </Col>
