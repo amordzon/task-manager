@@ -50,7 +50,7 @@ public class Task {
     @Column(name="status")
     private Status status;
 
-    @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade= CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments;
 
     @Column(name="deadline")
