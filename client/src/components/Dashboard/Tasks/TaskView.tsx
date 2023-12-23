@@ -3,6 +3,7 @@ import {
   faCirclePlus,
   faComments,
   faFileLines,
+  faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -11,6 +12,9 @@ import "../../../styles/Task.css";
 import { Task } from "../../../types/Task";
 import moment from "moment";
 import { Comment } from "../../../types/Comment";
+import api from "../../../api";
+import { useKeycloak } from "@react-keycloak/web";
+import { toast } from "react-toastify";
 
 type ModalProps = {
   showTaskModal: boolean;
@@ -23,6 +27,43 @@ const TaskView = ({
   handleCloseTaskModal,
   selectedTask,
 }: ModalProps) => {
+  const { keycloak } = useKeycloak();
+
+  const destroyTask = async (id: string) => {
+    await api
+      .delete("/tasks/" + id, {
+        headers: {
+          withCredentials: true,
+          Authorization: `Bearer ${keycloak.token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        toast.success("Task deleted!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        handleCloseTaskModal();
+      })
+      .catch(() => {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
   return (
     <>
       <Modal
@@ -34,7 +75,12 @@ const TaskView = ({
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <FontAwesomeIcon icon={faBarsProgress} /> {selectedTask?.title}
+            <FontAwesomeIcon icon={faBarsProgress} /> {selectedTask?.title}{" "}
+            <FontAwesomeIcon
+              icon={faTrashCan}
+              className="__task-destroy"
+              onClick={() => destroyTask(selectedTask.id)}
+            />
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
