@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { faEllipsis, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,16 +14,21 @@ import useProjectDetails from "../../../hooks/useProjectDetails";
 import Tasks from "../Tasks/Tasks";
 import NewTask from "../Tasks/NewTask";
 import useModal from "../../../hooks/useModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const Project = () => {
-  const { group, tasksByStatus } = useProjectDetails();
+  const { group } = useProjectDetails();
   const { showModal, handleCloseModal, handleShowModal } = useModal();
+  const [currStatus, setCurrStatus] = useState("");
+  const tasksByStatus = useSelector((state: RootState) => state.tasks).tasks;
 
   return (
     <>
       <NewTask
         showNewTaskModal={showModal}
         handleCloseNewTaskModal={handleCloseModal}
+        status={currStatus}
       />
       <Container className="mt-4">
         <Row className="align-items-center pb-4">
@@ -85,10 +90,13 @@ const Project = () => {
                   style={{ cursor: "pointer" }}
                 />
               </div>
-              <Tasks tasksByStatus={tasksByStatus} status={status} />
+              <Tasks status={status} />
               <Card className="mb-3 __task-card-new">
                 <Card.Body
-                  onClick={handleShowModal}
+                  onClick={() => {
+                    setCurrStatus(status);
+                    handleShowModal();
+                  }}
                   style={{ cursor: "pointer" }}
                 >
                   <Card.Title className="__task-new-title">

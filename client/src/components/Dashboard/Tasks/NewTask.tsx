@@ -5,16 +5,23 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import useNewTask from "../../../hooks/useNewTask";
 
 type NewTaskModalProps = {
   showNewTaskModal: boolean;
   handleCloseNewTaskModal: () => void;
+  status: string | null;
 };
 
 const NewTask = ({
   showNewTaskModal,
   handleCloseNewTaskModal,
+  status,
 }: NewTaskModalProps) => {
+  const { register, onSubmit, errors } = useNewTask({
+    handleCloseNewTaskModal,
+    status,
+  });
   return (
     <>
       <Modal
@@ -29,11 +36,16 @@ const NewTask = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={onSubmit}>
             <Modal.Body>
               <Form.Group className="mb-3" controlId="title">
                 <Form.Label>Title</Form.Label>
-                <Form.Control type="text" placeholder="Add title" />
+                <Form.Control
+                  type="text"
+                  placeholder="Add title"
+                  {...register("title")}
+                />
+                <p>{errors.title?.message}</p>
               </Form.Group>
               <Form.Group className="mb-3" controlId="description">
                 <Form.Label>Description</Form.Label>
@@ -41,20 +53,22 @@ const NewTask = ({
                   as="textarea"
                   rows={3}
                   placeholder="Add description"
+                  {...register("description")}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="status">
                 <Form.Label>Status</Form.Label>
-                <Form.Select>
+                <Form.Select {...register("status")} value="INPROGRESS">
                   <option value="TODO">TODO</option>
                   <option value="INPROGRESS">IN PROGRESS</option>
                   <option value="TESTING">TESTING</option>
                   <option value="COMPLETED">COMPLETED</option>
                 </Form.Select>
+                <p>{errors.status?.message}</p>
               </Form.Group>
               <Form.Group className="mb-3" controlId="deadline">
                 <Form.Label>Deadline</Form.Label>
-                <Form.Control type="date" />
+                <Form.Control type="datetime-local" {...register("deadline")} />
               </Form.Group>
               <Form.Group className="mb-3" controlId="users">
                 <Form.Label>Users</Form.Label>

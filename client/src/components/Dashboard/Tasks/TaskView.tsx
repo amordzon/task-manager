@@ -16,21 +16,22 @@ import api from "../../../api";
 import { useKeycloak } from "@react-keycloak/web";
 import { toast } from "react-toastify";
 import { TaskStatus } from "../../../types/TaskStatus";
+import { useDispatch } from "react-redux";
+import { removeTask } from "../../../slices/tasksSlice";
 
 type ModalProps = {
   showTaskModal: boolean;
   handleCloseTaskModal: () => void;
   selectedTask: Task;
-  removeTask: (taskStat: keyof TaskStatus, id: string) => void;
 };
 
 const TaskView = ({
   showTaskModal,
   handleCloseTaskModal,
   selectedTask,
-  removeTask,
 }: ModalProps) => {
   const { keycloak } = useKeycloak();
+  const dispatch = useDispatch();
 
   const destroyTask = async (taskStat: keyof TaskStatus, id: string) => {
     await api
@@ -52,7 +53,7 @@ const TaskView = ({
           progress: undefined,
           theme: "light",
         });
-        removeTask(taskStat, id);
+        dispatch(removeTask({ taskStat, id }));
         handleCloseTaskModal();
       })
       .catch(() => {
@@ -204,40 +205,41 @@ const TaskView = ({
                   </div>
 
                   <div>
-                    {selectedTask.comments.map((comment: Comment, index) => (
-                      <Row
-                        className="d-flex pt-3 justify-content-start"
-                        key={index}
-                      >
-                        <Col className="d-flex">
-                          <Image
-                            className="rounded-circle shadow-1-strong me-3"
-                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
-                            alt="avatar"
-                            width="40"
-                            height="40"
-                          />
-                          <div className="flex-grow-1 flex-shrink-1">
-                            <div>
-                              <div className="d-flex justify-content-between align-items-center">
-                                <p className="mb-1">
-                                  {comment.author.firstName +
-                                    " " +
-                                    comment.author.lastName}{" "}
-                                  <span className="small">
-                                    -{" "}
-                                    {moment(comment.createdAt).format(
-                                      "MMMM Do YYYY, h:mm a"
-                                    )}
-                                  </span>
-                                </p>
+                    {selectedTask.comments &&
+                      selectedTask.comments.map((comment: Comment, index) => (
+                        <Row
+                          className="d-flex pt-3 justify-content-start"
+                          key={index}
+                        >
+                          <Col className="d-flex">
+                            <Image
+                              className="rounded-circle shadow-1-strong me-3"
+                              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                              alt="avatar"
+                              width="40"
+                              height="40"
+                            />
+                            <div className="flex-grow-1 flex-shrink-1">
+                              <div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <p className="mb-1">
+                                    {comment.author.firstName +
+                                      " " +
+                                      comment.author.lastName}{" "}
+                                    <span className="small">
+                                      -{" "}
+                                      {moment(comment.createdAt).format(
+                                        "MMMM Do YYYY, h:mm a"
+                                      )}
+                                    </span>
+                                  </p>
+                                </div>
+                                <p className="small mb-0">{comment.body}</p>
                               </div>
-                              <p className="small mb-0">{comment.body}</p>
                             </div>
-                          </div>
-                        </Col>
-                      </Row>
-                    ))}
+                          </Col>
+                        </Row>
+                      ))}
                   </div>
                 </div>
               </Col>

@@ -1,36 +1,22 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, Image } from "react-bootstrap";
 import useModal from "../../../hooks/useModal";
 import { Task } from "../../../types/Task";
-import { TaskStatus } from "../../../types/TaskStatus";
 import TaskView from "./TaskView";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 type TasksProps = {
-  tasksByStatus: TaskStatus;
   status: string;
 };
 
-const Tasks = ({ tasksByStatus, status }: TasksProps) => {
-  const [tasks, setTasks] = useState<TaskStatus>(tasksByStatus);
+const Tasks = ({ status }: TasksProps) => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { showModal, handleCloseModal, handleShowModal } = useModal();
+  const tasksByStatus = useSelector((state: RootState) => state.tasks).tasks;
 
-  const removeTask = (taskStat: keyof TaskStatus, id: string) => {
-    const removedTask = tasks[taskStat].filter((task) => {
-      return task.id !== id;
-    });
-    const newTasks: TaskStatus = {
-      ...tasks,
-      [taskStat]: removedTask,
-    };
-    setTasks(newTasks);
-  };
-
-  useEffect(() => {
-    setTasks(tasksByStatus);
-  }, [tasksByStatus]);
   return (
     <>
       {selectedTask && (
@@ -38,11 +24,10 @@ const Tasks = ({ tasksByStatus, status }: TasksProps) => {
           showTaskModal={showModal}
           handleCloseTaskModal={handleCloseModal}
           selectedTask={selectedTask}
-          removeTask={removeTask}
         />
       )}
-      {tasks &&
-        tasks[status as keyof typeof tasksByStatus].map((task, index) => (
+      {tasksByStatus[status as keyof typeof tasksByStatus].map(
+        (task: Task, index) => (
           <Card className="mb-3 __task-card" key={index}>
             <Card.Body
               onClick={() => {
@@ -59,7 +44,7 @@ const Tasks = ({ tasksByStatus, status }: TasksProps) => {
               <div className="ml-auto mt-2">
                 <div className="d-flex align-items-center justify-content-between">
                   <div>
-                    {task.comments.length > 0 && (
+                    {task.comments && task.comments.length > 0 && (
                       <>
                         <FontAwesomeIcon
                           icon={faComment}
@@ -93,7 +78,8 @@ const Tasks = ({ tasksByStatus, status }: TasksProps) => {
               </div>
             </Card.Body>
           </Card>
-        ))}
+        )
+      )}
     </>
   );
 };
