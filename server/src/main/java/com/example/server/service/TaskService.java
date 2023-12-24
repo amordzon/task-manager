@@ -43,6 +43,9 @@ public class TaskService {
         task.setGroup(group);
         addUsersToTask(task);
         //TO DO: zapisz autora taska
+
+        User user = userService.getCurrentUser();
+        task.setAuthor(user);
         return taskRepository.save(task);
     }
 
