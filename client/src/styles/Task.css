@@ -32,3 +32,8 @@
   font-size: 18px;
   margin-top: 10px;
 }
+
+.__task-destroy {
+  margin-left: 10px;
+  cursor: pointer;
+}

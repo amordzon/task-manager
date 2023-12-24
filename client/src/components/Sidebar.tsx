@@ -17,6 +17,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const Sidebar = () => {
   const { isLoggedIn, logOut } = useLogout();
@@ -34,6 +35,7 @@ const Sidebar = () => {
 
   return (
     <>
+      <ToastContainer />
       <NewProject
         showNewProjectForm={showModal}
         handleCloseProjectForm={handleCloseModal}

@@ -58,15 +58,7 @@ public class GroupService {
 //            group.setUsers(users);
 //        }
 
-        String adminID = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getDetails() != null) {
-            adminID = authentication.getDetails().toString();
-        }
-
-        User admin = userRepository.findById(adminID)
-        .orElseThrow(() -> new ResourceNotFoundException("Admin not found"));
-
+        User admin = userService.getCurrentUser();
         group.setAdmin(admin);
 
         //change this later

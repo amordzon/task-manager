@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useNewProject from "../../../hooks/useNewProject";
 
@@ -26,7 +25,6 @@ const NewProject = ({
   });
   return (
     <>
-      <ToastContainer />
       <Modal
         size="lg"
         centered
@@ -38,7 +36,7 @@ const NewProject = ({
         </Modal.Header>
         <Form onSubmit={onSubmit}>
           <Modal.Body>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 {...register("name")}
@@ -48,10 +46,7 @@ const NewProject = ({
               />
               <p>{errors.name?.message}</p>
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group className="mb-3" controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 {...register("description")}
@@ -59,10 +54,7 @@ const NewProject = ({
                 rows={3}
               />
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group className="mb-3" controlId="users">
               <Form.Label>Invite Users</Form.Label>
               {controlledFields.map((field, index) => {
                 const userEmailError = errors?.users?.[index]?.email;

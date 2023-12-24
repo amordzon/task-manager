@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,7 +51,7 @@ public class Task {
     @Column(name="status")
     private Status status;
 
-    @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade= CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments;
 
     @Column(name="deadline")

@@ -2,20 +2,15 @@ import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api";
+import { setTasks } from "../slices/tasksSlice";
 import { Group } from "../types/Group";
-import { Task } from "../types/Task";
-import { TaskStatus } from "../types/TaskStatus";
+import { useDispatch } from "react-redux";
 
 const useProjectDetails = () => {
   const { keycloak } = useKeycloak();
   const [group, setGroup] = useState<Group | null>(null);
   const { id } = useParams();
-  const [tasksByStatus, setTasksByStatus] = useState<TaskStatus>({
-    TODO: [],
-    INPROGRESS: [],
-    TESTING: [],
-    COMPLETED: [],
-  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getGroupDetails();
@@ -31,42 +26,14 @@ const useProjectDetails = () => {
       .then((response) => {
         const groupInfo = response.data.data;
         setGroup(groupInfo);
-        reduceTasks(groupInfo.tasks);
+        dispatch(setTasks(groupInfo.tasks));
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const reduceTasks = (tasks: Task[]) => {
-    const result: TaskStatus = {
-      TODO: [],
-      INPROGRESS: [],
-      TESTING: [],
-      COMPLETED: [],
-    };
-
-    tasks.forEach((task) => {
-      switch (task.status) {
-        case "TODO":
-          result.TODO.push(task);
-          break;
-        case "INPROGRESS":
-          result.INPROGRESS.push(task);
-          break;
-        case "TESTING":
-          result.TESTING.push(task);
-          break;
-        case "COMPLETED":
-          result.COMPLETED.push(task);
-          break;
-        default:
-          break;
-      }
-    });
-    setTasksByStatus(result);
-  };
-  return { tasksByStatus, group };
+  return { group };
 };
 
 export default useProjectDetails;

@@ -3,6 +3,7 @@ import {
   faCirclePlus,
   faComments,
   faFileLines,
+  faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -11,6 +12,12 @@ import "../../../styles/Task.css";
 import { Task } from "../../../types/Task";
 import moment from "moment";
 import { Comment } from "../../../types/Comment";
+import api from "../../../api";
+import { useKeycloak } from "@react-keycloak/web";
+import { toast } from "react-toastify";
+import { TaskStatus } from "../../../types/TaskStatus";
+import { useDispatch } from "react-redux";
+import { removeTask } from "../../../slices/tasksSlice";
 
 type ModalProps = {
   showTaskModal: boolean;
@@ -23,6 +30,45 @@ const TaskView = ({
   handleCloseTaskModal,
   selectedTask,
 }: ModalProps) => {
+  const { keycloak } = useKeycloak();
+  const dispatch = useDispatch();
+
+  const destroyTask = async (taskStat: keyof TaskStatus, id: string) => {
+    await api
+      .delete("/tasks/" + id, {
+        headers: {
+          withCredentials: true,
+          Authorization: `Bearer ${keycloak.token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        toast.success("Task deleted!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        dispatch(removeTask({ taskStat, id }));
+        handleCloseTaskModal();
+      })
+      .catch(() => {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
   return (
     <>
       <Modal
@@ -34,7 +80,12 @@ const TaskView = ({
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <FontAwesomeIcon icon={faBarsProgress} /> {selectedTask?.title}
+            <FontAwesomeIcon icon={faBarsProgress} /> {selectedTask?.title}{" "}
+            <FontAwesomeIcon
+              icon={faTrashCan}
+              className="__task-destroy"
+              onClick={() => destroyTask(selectedTask.status, selectedTask.id)}
+            />
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -44,15 +95,7 @@ const TaskView = ({
                 <div>
                   <div className="__task-attribute">STATUS</div>
                   <div className="d-flex justify-content-center">
-                    <select
-                      className="form-select"
-                      value={selectedTask ? selectedTask.status : "TODO"}
-                    >
-                      <option value="TODO">TODO</option>
-                      <option value="INPROGRESS">IN PROGRESS</option>
-                      <option value="TESTING">TESTING</option>
-                      <option value="COMPLETED">COMPLETED</option>
-                    </select>
+                    {selectedTask.status}
                   </div>
                 </div>
               </Col>
@@ -162,40 +205,41 @@ const TaskView = ({
                   </div>
 
                   <div>
-                    {selectedTask.comments.map((comment: Comment, index) => (
-                      <Row
-                        className="d-flex pt-3 justify-content-start"
-                        key={index}
-                      >
-                        <Col className="d-flex">
-                          <Image
-                            className="rounded-circle shadow-1-strong me-3"
-                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
-                            alt="avatar"
-                            width="40"
-                            height="40"
-                          />
-                          <div className="flex-grow-1 flex-shrink-1">
-                            <div>
-                              <div className="d-flex justify-content-between align-items-center">
-                                <p className="mb-1">
-                                  {comment.author.firstName +
-                                    " " +
-                                    comment.author.lastName}{" "}
-                                  <span className="small">
-                                    -{" "}
-                                    {moment(comment.createdAt).format(
-                                      "MMMM Do YYYY, h:mm a"
-                                    )}
-                                  </span>
-                                </p>
+                    {selectedTask.comments &&
+                      selectedTask.comments.map((comment: Comment, index) => (
+                        <Row
+                          className="d-flex pt-3 justify-content-start"
+                          key={index}
+                        >
+                          <Col className="d-flex">
+                            <Image
+                              className="rounded-circle shadow-1-strong me-3"
+                              src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                              alt="avatar"
+                              width="40"
+                              height="40"
+                            />
+                            <div className="flex-grow-1 flex-shrink-1">
+                              <div>
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <p className="mb-1">
+                                    {comment.author.firstName +
+                                      " " +
+                                      comment.author.lastName}{" "}
+                                    <span className="small">
+                                      -{" "}
+                                      {moment(comment.createdAt).format(
+                                        "MMMM Do YYYY, h:mm a"
+                                      )}
+                                    </span>
+                                  </p>
+                                </div>
+                                <p className="small mb-0">{comment.body}</p>
                               </div>
-                              <p className="small mb-0">{comment.body}</p>
                             </div>
-                          </div>
-                        </Col>
-                      </Row>
-                    ))}
+                          </Col>
+                        </Row>
+                      ))}
                   </div>
                 </div>
               </Col>
