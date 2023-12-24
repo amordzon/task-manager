@@ -44,7 +44,7 @@ const useNewTask = ({ handleCloseNewTaskModal, status }: ModalProps) => {
   useEffect(() => {
     const statusToSet = status ? status : "TODO";
     setValue("status", statusToSet);
-  }, [status]);
+  }, [status, handleCloseNewTaskModal]);
 
   const { keycloak } = useKeycloak();
   const { id } = useParams();
@@ -89,6 +89,7 @@ const useNewTask = ({ handleCloseNewTaskModal, status }: ModalProps) => {
     register,
     onSubmit,
     errors,
+    reset,
   };
 };
 

@@ -18,7 +18,7 @@ const NewTask = ({
   handleCloseNewTaskModal,
   status,
 }: NewTaskModalProps) => {
-  const { register, onSubmit, errors } = useNewTask({
+  const { register, onSubmit, errors, reset } = useNewTask({
     handleCloseNewTaskModal,
     status,
   });
@@ -28,7 +28,10 @@ const NewTask = ({
         size="lg"
         centered
         show={showNewTaskModal}
-        onHide={handleCloseNewTaskModal}
+        onHide={() => {
+          handleCloseNewTaskModal();
+          reset();
+        }}
       >
         <Modal.Header>
           <Modal.Title>
@@ -85,7 +88,13 @@ const NewTask = ({
               <Button variant="success" type="submit">
                 Save
               </Button>
-              <Button variant="secondary" onClick={handleCloseNewTaskModal}>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  handleCloseNewTaskModal();
+                  reset();
+                }}
+              >
                 Cancel
               </Button>
             </Modal.Footer>
